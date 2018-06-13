@@ -104,14 +104,40 @@ class Main_menu(tk.Frame):
         label = tk.Label(self,image=self.bg)
         label.grid(pady=0,padx=0)
 
+        def welcome_student():
+            """This function produces a welcome back pop when the user details are correct
+                and displays the user image for that specific user"""
+
+            begin_register.config(state='disabled')
+            quit_r.config(state='disabled')
+            popup_window= tk.Toplevel()
+            popup_window.attributes('-alpha', 0.86)
+            popup_window.wm_title("Welcome Back")
+            photo = PhotoImage(file ='icons/info/Reminder_message.png') #loads the picture for the timetable officer who signs in
+            photo = photo.subsample(2) #shinks the picture to the correct size
+            imageLabel = tk.Label(popup_window, image=photo)
+            imageLabel.pack(padx=15, pady=35)
+           
+            def proc_close_popup():
+                begin_register.config(state='active')
+                quit_r.config(state='active')
+                popup_window.destroy()
+                controller.show_frame(registrationPage)
+
+            def canc_close_popup():
+                begin_register.config(state='active')
+                quit_r.config(state='active')
+                popup_window.destroy()
+
+        
         #Creating Buttons for each functionilty in our software
         self.reminder = tk.PhotoImage(file='Icons/Buttons/Register.png')
         begin_register = tk.Button(self,image=self.reminder,command=lambda:welcome_student())
         begin_register.place(x=145, y=205)
 
         self.quit_img = tk.PhotoImage(file='Icons/Buttons/quit.png')
-        quit = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including sign out
-        quit.place(x=1295, y=415)
+        quit_r = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including sign out
+        quit_r.place(x=1295, y=415)
 
 
 #MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
