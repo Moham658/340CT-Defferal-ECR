@@ -73,6 +73,10 @@ class main_page(tk.Frame):
         label = tk.Label(self,image=self.bg)
         label.grid(pady=0,padx=0)
 
+        self.login_button_img = tk.PhotoImage(file='Icons/Buttons/letsBegin.png')#All folders for images in software must be in the root folder
+        letsBegin = tk.Button(self,image=self.login_button_img, width=100,height=38,command=lambda:controller.show_frame(Main_menu))
+        letsBegin.place(x=635, y=405)
+
 #MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 #MMMMMMMMyyyydMMMMMMNyyyymMMMMMMMMMMMMMMMMMhoodMMMMMMMMMMMMMMMMMMMMMMMNhyyssyyhmNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 #MMMMMMMm    `NMMMMM+    +MMMMMMMMMMMMMMMMM.  :MMMMMMMMMMMMMMMMMMMMMMMy   ````  .sMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
@@ -123,7 +127,7 @@ class registrationPage(tk.Frame):
     """This class creates the Booking page"""
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.bg = tk.PhotoImage(file='Icons/Backgrounds/BookingPage.png')
+        self.bg = tk.PhotoImage(file='Icons/Backgrounds/RegistrationPage.png')
         main_window = tk.Label(self,image=self.bg)
         main_window.grid(pady=0,padx=0)
 
