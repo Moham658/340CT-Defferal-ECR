@@ -4,7 +4,7 @@ from tkinter import Menu, ttk
 
 class ECR(tk.Tk):
     """Class that inherits other classes (pages) and stores each class as frames to allow program
-        to switch between frames or pages.i.e. login page to main menu page within the same window"""
+        to switch between frames or pages.i.e. welocome page to main menu page within the same window"""
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs) #initialising tkinter 
 
@@ -17,18 +17,18 @@ class ECR(tk.Tk):
 
 
         frame1 = registrationPage(window, self) #each page is a frame
-        frame2 = main_page(window, self)
+        frame2 = welcome_page(window, self)
         frame3 = Main_menu(window, self)
         
         self.frames[registrationPage] = frame1
-        self.frames[main_page] = frame2
+        self.frames[welcome_page] = frame2
         self.frames[Main_menu] = frame3
 
         frame1.grid(row=0, column=0, sticky="nsew")
         frame2.grid(row=0, column=0, sticky="nsew")
         frame3.grid(row=0, column=0, sticky="nsew")
         
-        self.show_frame(main_page)
+        self.show_frame(welcome_page)
 
 
         
@@ -65,8 +65,8 @@ class ECR(tk.Tk):
 
 
 
-class main_page(tk.Frame):
-    """This class creates the login page"""
+class welcome_page(tk.Frame):
+    """This class creates the welcome page"""
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.bg = tk.PhotoImage(file='Icons/Backgrounds/bg.png')
@@ -146,6 +146,36 @@ class Main_menu(tk.Frame):
         quit_r = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including quit
         quit_r.place(x=1295, y=415)
 
+        
+        def prompt_signout():
+            """Function incharge of quitting (back to welcome page)"""
+            quit_r.config(state='disabled')
+            begin_register.config(state='disabled')
+            popup_window= tk.Tk()
+            popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
+            popup_window.wm_title("Are you sure?")
+
+            def quit():
+                quit_r.config(state='normal')
+                begin_register.config(state='normal')
+                controller.show_frame(welcome_page)
+                popup_window.destroy()
+            
+            def close_popup():
+                quit_r.config(state='normal')
+                begin_register.config(state='normal')
+                popup_window.destroy()
+
+            
+                
+            label = ttk.Label(popup_window, text="Are you sure you want to quit",font=("bold",12))
+            label.grid(row=0, column=0,padx=70,pady=13)
+
+            Okay = ttk.Button(popup_window, text="Okay", command = lambda:quit())
+            Okay.grid(row=1, column=0,pady=0, padx=0,)
+            
+            cancel = ttk.Button(popup_window, text="Cancel", command = lambda:close_popup())
+            cancel.grid(row=2, column=0,pady=0, padx=0,)
 
 #MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 #MMMMmmddddmMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMhymMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMdydMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMmmddddmMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
