@@ -106,7 +106,7 @@ class Main_menu(tk.Frame):
 
         def welcome_student():
             """This function produces a welcome back pop when the user details are correct
-                and displays the user image for that specific user"""
+                & displays the user image for that specific user"""
 
             begin_register.config(state='disabled')
             quit_r.config(state='disabled')
