@@ -104,7 +104,14 @@ class Main_menu(tk.Frame):
         label = tk.Label(self,image=self.bg)
         label.grid(pady=0,padx=0)
 
+        #Creating Buttons for each functionilty in our software
+        self.reminder = tk.PhotoImage(file='Icons/Buttons/Register.png')
+        begin_register = tk.Button(self,image=self.reminder,command=lambda:welcome_student())
+        begin_register.place(x=145, y=205)
 
+        self.quit_img = tk.PhotoImage(file='Icons/Buttons/quit.png')
+        quit = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including sign out
+        quit.place(x=1295, y=415)
 
 
 #MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
