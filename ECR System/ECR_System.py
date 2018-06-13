@@ -201,6 +201,45 @@ class registrationPage(tk.Frame):
         main_window = tk.Label(self,image=self.bg)
         main_window.grid(pady=0,padx=0)
 
+
+
+        self.quit_img = tk.PhotoImage(file='Icons/Buttons/quit.png')
+        quit_r = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including quit
+        quit_r.place(x=1295, y=415)
+
+
+
+        
+        def prompt_signout():
+            """Function incharge of quitting (back to Main page)"""
+            quit_r.config(state='disabled')
+            popup_window= tk.Tk()
+            popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
+            popup_window.wm_title("Are you sure?")
+
+            def quit():
+                quit_r.config(state='normal')
+                controller.show_frame(Main_menu)
+                popup_window.destroy()
+            
+            def close_popup():
+                quit_r.config(state='normal')
+                popup_window.destroy()
+
+            
+                
+            label = ttk.Label(popup_window, text="Are you sure you want to quit",font=("bold",12))
+            label.grid(row=0, column=0,padx=70,pady=13)
+
+            Okay = ttk.Button(popup_window, text="Okay", command = lambda:quit())
+            Okay.grid(row=1, column=0,pady=0, padx=0,)
+            
+            cancel = ttk.Button(popup_window, text="Cancel", command = lambda:close_popup())
+            cancel.grid(row=2, column=0,pady=0, padx=0,)
+
+
+    
+
 app = ECR()
 app.mainloop()
         
