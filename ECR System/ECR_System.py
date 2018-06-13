@@ -213,15 +213,31 @@ class registrationPage(tk.Frame):
         
         self.treeviewCourses = ttk.Treeview(main_window)
         self.treeviewCourses.place(x=95, y=215)
-        self.dataColumns = ('country', 'capital', 'currency')
-        self.treeviewCourses.config(columns = ('type'))
-        self.treeviewCourses.column('#0',width = 200, anchor = 'n')#department column
-        self.treeviewCourses.column('type',width = 150, anchor = 'n')#course type column
-        #self.treeviewCourses.column('code',width = 150, anchor = 'n')#course code column
-        #self.treeviewCourses.column('start',width = 150, anchor = 'n')#start date column
-        #self.treeviewCourses.column('end',width = 150, anchor = 'n')#end date column
-        #self.treeviewCourses.column('hours',width = 150, anchor = 'n')#hours perweek column
-        #self.treeviewCourses.column('AvSpace',width = 150, anchor = 'n')#Available spaces column
+        
+        dataColumns = ('department', 'type', 'code','start', 'end', 'hours','Available Spaces') #column names
+
+        testdata = [
+    ('1', '2','3','4','5','6','7') ,
+    ('1', '2','3','4','5','6','7') ,
+    ('1', '2','3','4','5','6','7') ,
+    ('1', '2','3','4','5','6','7') ,
+    ('1', '2','3','4','5','6','7')]
+
+        
+        self.treeviewCourses.config(columns = dataColumns, show = 'headings')
+        for col in dataColumns:
+            self.treeviewCourses.heading(col, text=col.title())
+
+        for info in testdata:
+            self.treeviewCourses.insert('', 'end', values=info, tags=('info',))
+            
+        self.treeviewCourses.column('department',width = 200, anchor = 'w')#department column
+        self.treeviewCourses.column('type',width = 60, anchor = 'w')#course type column
+        self.treeviewCourses.column('code',width = 90, anchor = 'w')#course code column
+        self.treeviewCourses.column('start',width = 90, anchor = 'w')#start date column
+        self.treeviewCourses.column('end',width = 90, anchor = 'w')#end date column
+        self.treeviewCourses.column('hours',width = 60, anchor = 'w')#hours perweek column
+        self.treeviewCourses.column('Available Spaces',width = 150, anchor = 'w')#Available spaces column
 
 
         
