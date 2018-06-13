@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import *
-
+from tkinter import Menu, ttk
 
 class ECR(tk.Tk):
     """Class that inherits other classes (pages) and stores each class as frames to allow program
@@ -112,9 +112,9 @@ class Main_menu(tk.Frame):
             quit_r.config(state='disabled')
             popup_window= tk.Toplevel()
             popup_window.attributes('-alpha', 0.86)
-            popup_window.wm_title("Welcome Back")
-            photo = PhotoImage(file ='icons/info/Reminder_message.png') #loads the picture for the timetable officer who signs in
-            photo = photo.subsample(2) #shinks the picture to the correct size
+            popup_window.wm_title("Welcome Student")
+            photo = PhotoImage(file ='icons/info/Reminder_message.png') #loads message for reminding student what info they need
+            photo = photo.subsample(2) #shinks message to the correct size
             imageLabel = tk.Label(popup_window, image=photo)
             imageLabel.pack(padx=15, pady=35)
            
@@ -128,15 +128,22 @@ class Main_menu(tk.Frame):
                 begin_register.config(state='active')
                 quit_r.config(state='active')
                 popup_window.destroy()
+            
+            proceed = ttk.Button(popup_window, text="Proceed", width = 23, command = lambda:proc_close_popup())#moves to registeration frame
+            proceed.place(x=160,y=355)
+            cancel = ttk.Button(popup_window, text="Cancel", width = 23, command = lambda:canc_close_popup())#remains in to Main_menu frame
+            cancel.place(x=330,y=355)
 
-        
+            popup_window.mainloop()
+
+            
         #Creating Buttons for each functionilty in our software
         self.reminder = tk.PhotoImage(file='Icons/Buttons/Register.png')
         begin_register = tk.Button(self,image=self.reminder,command=lambda:welcome_student())
         begin_register.place(x=145, y=205)
 
         self.quit_img = tk.PhotoImage(file='Icons/Buttons/quit.png')
-        quit_r = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including sign out
+        quit_r = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including quit
         quit_r.place(x=1295, y=415)
 
 
