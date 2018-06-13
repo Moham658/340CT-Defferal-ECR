@@ -208,6 +208,21 @@ class registrationPage(tk.Frame):
         quit_r.place(x=1295, y=415)
 
 
+        #creates the treeview table which contains the course columns
+
+        
+        self.treeviewCourses = ttk.Treeview(main_window)
+        self.treeviewCourses.place(x=95, y=215)
+        self.dataColumns = ('country', 'capital', 'currency')
+        self.treeviewCourses.config(columns = ('type'))
+        self.treeviewCourses.column('#0',width = 200, anchor = 'n')#department column
+        self.treeviewCourses.column('type',width = 150, anchor = 'n')#course type column
+        #self.treeviewCourses.column('code',width = 150, anchor = 'n')#course code column
+        #self.treeviewCourses.column('start',width = 150, anchor = 'n')#start date column
+        #self.treeviewCourses.column('end',width = 150, anchor = 'n')#end date column
+        #self.treeviewCourses.column('hours',width = 150, anchor = 'n')#hours perweek column
+        #self.treeviewCourses.column('AvSpace',width = 150, anchor = 'n')#Available spaces column
+
 
         
         def prompt_signout():
