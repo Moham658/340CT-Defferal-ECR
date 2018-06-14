@@ -5,9 +5,10 @@ def getCourses():
         as a list for Course table"""
     
     conn = db.connect('ECRS_db.db')
-    conn.row_factory = lambda cursor, row: row[0]
     c = conn.cursor()
-    courses = c.execute('SELECT Course FROM Courses').fetchall()
+    
+    courses = c.execute('SELECT * FROM Courses').fetchall()
+
     return courses
 
-print(getCourses())
+

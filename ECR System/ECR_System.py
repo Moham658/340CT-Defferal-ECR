@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import Menu, ttk
+import studentProcess
 
 class ECR(tk.Tk):
     """Class that inherits other classes (pages) and stores each class as frames to allow program
@@ -214,14 +215,9 @@ class registrationPage(tk.Frame):
         self.treeviewCourses = ttk.Treeview(main_window)
         self.treeviewCourses.place(x=95, y=215)
         
-        dataColumns = ('department', 'type', 'code','start', 'end', 'hours','Available Spaces') #column names
+        dataColumns = ('Course', 'Type', 'Code','Start', 'End', 'Hours','Available Spaces') #column names
 
-        testdata = [
-    ('1', '4','9','43','5','6','7') ,
-    ('1', '5','3','4','5','6','7') ,
-    ('1', '2','0','4','5','6','7') ,
-    ('1', '6','10','4','5','6','7') ,
-    ('1', '8','44','4','5','6','7')]
+        testdata = studentProcess.getCourses()
 
         
         
@@ -234,12 +230,12 @@ class registrationPage(tk.Frame):
         for info in testdata:
             self.treeviewCourses.insert('', 'end', values=info, tags=('info',))
             
-        self.treeviewCourses.column('department',width = 200, anchor = 'w')#department column
-        self.treeviewCourses.column('type',width = 60, anchor = 'w')#course type column
-        self.treeviewCourses.column('code',width = 90, anchor = 'w')#course code column
-        self.treeviewCourses.column('start',width = 90, anchor = 'w')#start date column
-        self.treeviewCourses.column('end',width = 90, anchor = 'w')#end date column
-        self.treeviewCourses.column('hours',width = 60, anchor = 'w')#hours perweek column
+        self.treeviewCourses.column('Course',width = 200, anchor = 'w')#department column
+        self.treeviewCourses.column('Type',width = 60, anchor = 'w')#course type column
+        self.treeviewCourses.column('Code',width = 90, anchor = 'w')#course code column
+        self.treeviewCourses.column('Start',width = 90, anchor = 'w')#start date column
+        self.treeviewCourses.column('End',width = 90, anchor = 'w')#end date column
+        self.treeviewCourses.column('Hours',width = 60, anchor = 'w')#hours perweek column
         self.treeviewCourses.column('Available Spaces',width = 150, anchor = 'w')#Available spaces column
         
         def sort(tree, column, descend):
