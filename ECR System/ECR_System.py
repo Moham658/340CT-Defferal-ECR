@@ -217,16 +217,19 @@ class registrationPage(tk.Frame):
         dataColumns = ('department', 'type', 'code','start', 'end', 'hours','Available Spaces') #column names
 
         testdata = [
-    ('1', '2','3','4','5','6','7') ,
-    ('1', '2','3','4','5','6','7') ,
-    ('1', '2','3','4','5','6','7') ,
-    ('1', '2','3','4','5','6','7') ,
-    ('1', '2','3','4','5','6','7')]
+    ('1', '4','9','43','5','6','7') ,
+    ('1', '5','3','4','5','6','7') ,
+    ('1', '2','0','4','5','6','7') ,
+    ('1', '6','10','4','5','6','7') ,
+    ('1', '8','44','4','5','6','7')]
 
         
+        
         self.treeviewCourses.config(columns = dataColumns, show = 'headings')
-        for col in dataColumns:
-            self.treeviewCourses.heading(col, text=col.title())
+        
+        for column in dataColumns:
+            #inserts column headings and allows headers to click to sort
+            self.treeviewCourses.heading(column, text=column.title(), command=lambda col=column: sort(self.treeviewCourses, col, 0))
 
         for info in testdata:
             self.treeviewCourses.insert('', 'end', values=info, tags=('info',))
@@ -238,9 +241,32 @@ class registrationPage(tk.Frame):
         self.treeviewCourses.column('end',width = 90, anchor = 'w')#end date column
         self.treeviewCourses.column('hours',width = 60, anchor = 'w')#hours perweek column
         self.treeviewCourses.column('Available Spaces',width = 150, anchor = 'w')#Available spaces column
+        
+        def sort(tree, column, descend):
+            """uses tree sort algorithm when the column headers are clicked on"""
+            # selects the values it needs to sort
+            dat = [(tree.set(children, column), children) for children in tree.get_children('')]
+            # numeric data changed to a float for sorting
+            # now we sort the data into order
+            dat.sort(reverse=descend)
+            for i, info in enumerate(dat):
+                tree.move(info[1], '', i)
+            # now sort the data in the opposite order
+            tree.heading(column, command=lambda column=column: sort(tree, column, int(not descend)))
+            
+        def getselected(treeview):
+            """Function that gets/returns the selected course from the course table"""
+            print(self.treeviewCourses.selection())
+
+        #only allows one course to be selected and returned
+        self.treeviewCourses.config(selectmode='browse')
+        
 
 
         
+
+        self.treeviewCourses.bind('<<TreeviewSelect>>', getselected)
+            
         def prompt_signout():
             """Function incharge of quitting (back to Main page)"""
             quit_r.config(state='disabled')
