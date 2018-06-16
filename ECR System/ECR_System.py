@@ -204,10 +204,8 @@ class registrationPage(tk.Frame):
 
 
 
-        self.quit_img = tk.PhotoImage(file='Icons/Buttons/quit.png')
-        quit_r = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including quit
-        quit_r.place(x=1295, y=415)
-
+        
+#-------------------------------------------------- Course Table --------------------------------------------------#
 
         #creates the treeview table which contains the course columns
 
@@ -256,12 +254,64 @@ class registrationPage(tk.Frame):
 
         #only allows one course to be selected and returned
         self.treeviewCourses.config(selectmode='browse')
-        
-
-
-        
-
         self.treeviewCourses.bind('<<TreeviewSelect>>', getselected)
+
+
+#----------------------------------------------Student Data Entries------------------------------------------------#
+
+        
+        title = ['Mr', 'Mrs', 'Miss', 'Ms'] #list containing titles for drop down menu
+        
+        #creates title drop down menu
+        select_title = ttk.Combobox(self,values=title, justify='center')
+        select_title.current(0)  #sets firsts day to monday
+        select_title['state'] = 'readonly'
+        select_title.place(x=115, y=50,width = 100,height = 30)
+
+        
+                    
+        fName = tk.StringVar() #first name variable
+        fName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        fName.place(x=115, y=90)
+                    
+        sName = tk.StringVar() #first name variable
+        sName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        sName.place(x=115, y=130)
+                    
+        address1 = tk.StringVar() #first name variable
+        address1 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        address1.place(x=115, y=170)
+
+        address2 = tk.StringVar() #first name variable
+        address2 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        address2.place(x=450, y=50)
+        
+        county = tk.StringVar() #first name variable
+        county = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        county.place(x=115, y=90)
+
+        postode = tk.StringVar() #first name variable
+        postode = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        postode.place(x=115, y=130)
+
+        phoneNum = tk.StringVar() #first name variable
+        phoneNum = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        phoneNum.place(x=115, y=170)
+        
+        
+
+
+        
+
+
+#------------------------------------------------------------------------------------------------------------------#   
+
+        #quit button to back to Main Page
+        self.quit_img = tk.PhotoImage(file='Icons/Buttons/quit.png')
+        quit_r = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including quit
+        quit_r.place(x=1295, y=415)
+
+                
             
         def prompt_signout():
             """Function incharge of quitting (back to Main page)"""
@@ -291,8 +341,9 @@ class registrationPage(tk.Frame):
             cancel.grid(row=2, column=0,pady=0, padx=0,)
 
 
-    
 
+
+            
 app = ECR()
 app.mainloop()
         
