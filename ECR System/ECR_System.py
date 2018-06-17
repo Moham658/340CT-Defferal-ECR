@@ -254,64 +254,117 @@ class studentDetails(tk.Frame):
         email = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         email.place(x=550, y=450)
 
-        message = ''
+        self.message = '' #pre prepared message for invalid inputs will be stored here and displayed insie the invalid pop up window below
+
+        def invalid_pop():
+            """This function produces an invalid message on a pop when an input is invalid"""
+
+            next_to_course.config(state='disabled')
+            quit_r.config(state='disabled')
+            popup_window= tk.Toplevel()
+            popup_window.attributes('-alpha', 0.86)
+            popup_window.wm_title("invalid details")
+            imageLabel = tk.Label(popup_window, text=self.message)
+            imageLabel.pack(padx=185, pady=45)
+
+            def canc_close_popup():
+                next_to_course.config(state='active')
+                quit_r.config(state='active')
+                popup_window.destroy()
+
+            ok = ttk.Button(popup_window, text="OK", width = 23, command = lambda:canc_close_popup())#remains in to Main_menu frame
+            ok.place(x=230,y=75)
+
+            popup_window.mainloop()
+
+        def valid_pop():
+            """This function produces an valid message on a pop when all inputs are invalid"""
+
+            next_to_course.config(state='disabled')
+            quit_r.config(state='disabled')
+            popup_window= tk.Toplevel()
+            popup_window.attributes('-alpha', 0.86)
+            popup_window.wm_title("invalid details")
+            imageLabel = tk.Label(popup_window, text="Congratulations all fields are correct your ready "+"\n"+"to progress to the next stage to select your "+"\n" + "course")
+            imageLabel.pack(padx=185, pady=45)
+
+            def proc_close_popup():
+                next_to_course.config(state='active')
+                quit_r.config(state='active')
+                controller.show_frame(coursePage)
+                popup_window.destroy()
 
 
+            def canc_close_popup():
+                next_to_course.config(state='active')
+                quit_r.config(state='active')
+                popup_window.destroy()
+
+            ok = ttk.Button(popup_window, text="OK", width = 13, command = lambda:proc_close_popup())#remains in to Main_menu frame
+            ok.place(x=230,y=107)
+
+            cancel = ttk.Button(popup_window, text="Cancel", width = 13, command = lambda:canc_close_popup())#remains in to Main_menu frame
+            cancel.place(x=320,y=107)
+            
+            popup_window.mainloop()
+
+        
         def check_empty():
             """ This Function checks to see if any mandetory fields are empty, if so creates an error message for pop else it moves on to the
                 next error check"""
             if fName.get() == '' or sName.get() == '' or address1.get() == ''or address2.get() == ''\
                or postcode.get() == ''or phoneNum.get() == ''or email.get() == '':
                 
-                print("Please Enusre all mandetory fields are filled in")
+                self.message="Please Enusre all mandetory fields are filled in" #all check functions contain a message update for invalid pop up
+                invalid_pop() #all check finctions run the pop up with the matching invalid message 
             
             else:
-                check_fName()
+                check_fName()#all check functions if succesful runs the next check function 
                 
         def check_fName():
-            """This function checks all data entries for input errors, mistakes or
-                #empty feilds"""
+            """This function checks to see if the first name is a valid name"""
             
             for i in fName.get():
                 # checks to see if phone number letters or other 
                 if i not in ('abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ-'):
-                     message = "First Name can only contain letters within the alphabet and should not contain spaces"
-                     print(message)
-                     break
+                     self.message = "First Name can only contain letters within the alphabet and should not contain spaces"
+                     invalid_pop()
+                    
             else:
                 confirm_sName()
 
             
         def confirm_sName():
+            """This function checks to see if the surname name is a valid name/s"""
             for i in sName.get():
                 # checks to see if numbers or non-alphabetical characters are in the first name entry 
                 if i not in 'abcdefghijklmnopqrstuvwxy ABCDEFGHIJKLMNOPQRSTUVWXYZ-':
-                     message = "Surname can only contain letters within the alphabet"
-                     print(message)
-                     break
+                     self.message = "Surname can only contain letters within the alphabet"
+                     invalid_pop()
+                    
             else:
                 check_address1()
 
         def check_address1():
             """This function uses regular expression patterns to validate the Address line 1 inputed by the student"""
             
-            re_pattern = "(\d+).*?\s+(.+)"
+            re_pattern = "(\d+).*?\s+(.+)" #regular expression for UK first line address
     
             if re.match(re_pattern,address1.get()):
                 check_address2()
 
             else:
-               message = "Address line 1 is incorrect, please check and re-enter"
-               print(message)
+               self.message = "Address line 1 is incorrect, please check and re-enter"
+               invalid_pop()
 
         def check_address2():
-            """This function checks if address line 2 is Valid"""
+            """This function checks if address line 2 is Valid i.e. town,city"""
             
             count = 0
             
             if len(address2.get().split())>2 or len(address2.get().split())<2:
-                message = "Address line 2 is incorrect, please check and re-enter"
-                print(message)
+                self.message = "Address line 2 is incorrect, please check and re-enter"
+                invalid_pop()
                 
 
             else:
@@ -321,41 +374,42 @@ class studentDetails(tk.Frame):
         def check_postcode():
             """This function uses regular expression patterns to validate the postcode inputed by the student"""
             
-            re_pattern = "^([A-Z]{1,2}\d{1,2}|d[A-Z]{1,2}\d[A-Z])\d[A-Z]{2}$"
+            re_pattern = "^([A-Z]{1,2}\d{1,2}|d[A-Z]{1,2}\d[A-Z])\d[A-Z]{2}$" #regular expression for UK postcodes
     
             if re.match(re_pattern,postcode.get()):
                 check_phoneNum()
 
             else:
-               message = "postcode is incorrect, please check and re-enter"
-               print(message)
+               self.message = "postcode is incorrect, please check and re-enter"
+               invalid_pop()
             
 
             
         def check_phoneNum():
-
-            re_pattern = "^(07\d{8,12}|447\d{7,11})$"
-            re_pattern2 = "^(01\d{8,12}|447\d{7,11})$"
+            """This function uses regular expression patterns to validate the mobile number inputed by the student"""
             
-            if re.match(re_pattern,phoneNum.get()) or re.match(re_pattern2,phoneNum.get()):
+            re_pattern = "^(07\d{8,12}|447\d{7,11})$" # regular expression for UK mobile numbers
+            re_pattern2 = "^(01\d{8,12}|447\d{7,11})$" # regular expression for UK landlines
+            
+            if re.match(re_pattern,phoneNum.get()) or re.match(re_pattern2,phoneNum.get()): 
                 check_email()
 
             else:
-               message = "PhoneNumber is incorrect, please check and re-enter"
-               print(message)
+               self.message = "PhoneNumber is incorrect, please check and re-enter"
+               invalid_pop()
 
             
 
         def check_email():
-
-            re_pattern = "[^@]+@[^@]+\.[^@]+"
+            """This function uses regular expression patterns to validate the email address inputed by the student"""
+            re_pattern = "[^@]+@[^@]+\.[^@]+"  # regular expression for emails
             
             if re.match(re_pattern,email.get()):
-                controller.show_frame(coursePage)
+                valid_pop()
 
             else:
-               message = "email is not valid please enter valid email address"
-               print(message)
+               self.message = "email is not valid please enter valid email address"
+               invalid_pop()
                
             
         #creates next to course page
