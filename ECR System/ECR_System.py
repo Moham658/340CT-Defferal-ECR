@@ -307,7 +307,7 @@ class coursePage(tk.Frame):
     """This class creates the Course page"""
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.bg = tk.PhotoImage(file='Icons/Backgrounds/RegistrationPage.png')
+        self.bg = tk.PhotoImage(file='Icons/Backgrounds/courseDetails.png')
         main_window = tk.Label(self,image=self.bg)
         main_window.grid(pady=0,padx=0)
 
