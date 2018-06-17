@@ -21,16 +21,19 @@ class ECR(tk.Tk):
         frame2 = welcome_page(window, self)
         frame3 = Main_menu(window, self)
         frame4 = coursePage(window, self)
+        frame5 = studentUnique(window, self) #each page is a frame
         
         self.frames[studentDetails] = frame1
         self.frames[welcome_page] = frame2
         self.frames[Main_menu] = frame3
         self.frames[coursePage] = frame4
+        self.frames[studentUnique] = frame5
 
         frame1.grid(row=0, column=0, sticky="nsew")
         frame2.grid(row=0, column=0, sticky="nsew")
         frame3.grid(row=0, column=0, sticky="nsew")
         frame4.grid(row=0, column=0, sticky="nsew")
+        frame5.grid(row=0, column=0, sticky="nsew")
         
         self.show_frame(welcome_page)
 
@@ -295,7 +298,7 @@ class studentDetails(tk.Frame):
 
             
 
-#-------------###### Student Address ######----------------#
+#-------------###### course Page ######----------------#
 
 class coursePage(tk.Frame):
     """This class creates the Course page"""
@@ -355,18 +358,18 @@ class coursePage(tk.Frame):
         self.treeviewCourses.bind('<<TreeviewSelect>>', getselected)
         
 
-
+#------------------------------------------------------------------------------------------------------------------#   
         
         #creates next to student id/password and previous buttons for student address detail page
         self.next = tk.PhotoImage(file='Icons/Buttons/next.png')
-        next_to_id = tk.Button(self,image=self.next,command=lambda:controller.show_frame(coursePage))
+        next_to_id = tk.Button(self,image=self.next,command=lambda:controller.show_frame(studentUnique))
         next_to_id.place(x=1050, y=220)
 
         self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
         prev_to_id = tk.Button(self,image=self.prev,command=lambda:controller.show_frame(studentDetails))
         prev_to_id.place(x=90, y=220)
 
-#------------------------------------------------------------------------------------------------------------------#   
+
 
         #quit button to back to Main Page
         self.quit_img = tk.PhotoImage(file='Icons/Buttons/quit.png')
@@ -402,7 +405,81 @@ class coursePage(tk.Frame):
             cancel = ttk.Button(popup_window, text="Cancel", command = lambda:close_popup())
             cancel.grid(row=2, column=0,pady=0, padx=0,)
 
+
+
+
+
+#-------------###### Student username/password ######----------------#
+    
+class studentUnique(tk.Frame):
+    """This class creates the student unique username/password entry page"""
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.bg = tk.PhotoImage(file='Icons/Backgrounds/RegistrationPage.png')
+        main_window = tk.Label(self,image=self.bg)
+        main_window.grid(pady=0,padx=0)
+
+                    
+        uName = tk.StringVar() #first name variable
+        uName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        uName.place(x=550, y=100)
+                    
+        pWord = tk.StringVar() #first name variable
+        pWord = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        pWord.place(x=550, y=150)
+                    
+        pWord2 = tk.StringVar() #first name variable
+        pWord2 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        pWord2.place(x=550, y=200)
+        
+#-----------------------------------------------------------------------------------------------------------
+
+#creates next to confirmation Notification and previous buttons for course selection page
+        self.next = tk.PhotoImage(file='Icons/Buttons/next.png')
+        next_to_id = tk.Button(self,image=self.next,command=lambda:controller.show_frame(studentUnique))
+        next_to_id.place(x=1050, y=220)
+
+        self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
+        prev_to_id = tk.Button(self,image=self.prev,command=lambda:controller.show_frame(coursePage))
+        prev_to_id.place(x=90, y=220)
+
+
+
+        #quit button to back to Main Page
+        self.quit_img = tk.PhotoImage(file='Icons/Buttons/quit.png')
+        quit_r = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including quit
+        quit_r.place(x=1295, y=415)
+
+                
             
+        def prompt_signout():
+            """Function incharge of quitting (back to Main page)"""
+            quit_r.config(state='disabled')
+            popup_window= tk.Tk()
+            popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
+            popup_window.wm_title("Are you sure?")
+
+            def quit():
+                quit_r.config(state='normal')
+                controller.show_frame(Main_menu)
+                popup_window.destroy()
+            
+            def close_popup():
+                quit_r.config(state='normal')
+                popup_window.destroy()
+
+            
+                
+            label = ttk.Label(popup_window, text="Are you sure you want to quit",font=("bold",12))
+            label.grid(row=0, column=0,padx=70,pady=13)
+
+            Okay = ttk.Button(popup_window, text="Okay", command = lambda:quit())
+            Okay.grid(row=1, column=0,pady=0, padx=0,)
+            
+            cancel = ttk.Button(popup_window, text="Cancel", command = lambda:close_popup())
+            cancel.grid(row=2, column=0,pady=0, padx=0,)
+
+        
 app = ECR()
 app.mainloop()
         
