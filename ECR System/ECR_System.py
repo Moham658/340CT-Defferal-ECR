@@ -1,7 +1,8 @@
-import tkinter as tk
-from tkinter import *
-from tkinter import Menu, ttk
-import studentProcess
+import tkinter as tk #for graphics gui
+from tkinter import * 
+from tkinter import Menu, ttk #for drop downmenu
+import re # importing modul for reguler expressions
+import studentProcess #importing student process (broker)
 
 class ECR(tk.Tk):
     """Class that inherits other classes (pages) and stores each class as frames to allow program
@@ -221,7 +222,7 @@ class studentDetails(tk.Frame):
         select_title.place(x=620, y=50,width = 100,height = 30)
 
         
-                    
+        fName = StringVar()
         fName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         fName.place(x=550, y=100)
                     
@@ -242,8 +243,8 @@ class studentDetails(tk.Frame):
         county.place(x=550, y=300)
 
         
-        postode = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
-        postode.place(x=550, y=350)
+        postcode = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        postcode.place(x=550, y=350)
 
         
         phoneNum = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
@@ -253,39 +254,113 @@ class studentDetails(tk.Frame):
         email = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         email.place(x=550, y=450)
 
-        Message = ''
+        message = ''
 
-        def confirmNext():
+
+        def check_empty():
+            """ This Function checks to see if any mandetory fields are empty, if so creates an error message for pop else it moves on to the
+                next error check"""
+            if fName.get() == '' or sName.get() == '' or address1.get() == ''or address2.get() == ''\
+               or postcode.get() == ''or phoneNum.get() == ''or email.get() == '':
+                
+                print("Please Enusre all mandetory fields are filled in")
+            
+            else:
+                check_fName()
+                
+        def check_fName():
             """This function checks all data entries for input errors, mistakes or
                 #empty feilds"""
             
             for i in fName.get():
-                # checks to see if numbers or non-alphabetical characters are in the first name entry 
-                if i not in ('abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ'):
-                     Message = "First Name can only contain letters within the alphabet and should not contain spaces"
+                # checks to see if phone number letters or other 
+                if i not in ('abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ-'):
+                     message = "First Name can only contain letters within the alphabet and should not contain spaces"
+                     print(message)
                      break
-                    
-
-            for i in sName.get():
-                # checks to see if numbers or non-alphabetical characters are in the surname name entry 
-                if i not in ('abcdefghijklmnopqrstuvwxy ABCDEFGHIJKLMNOPQRSTUVWXYZ'):
-                     Message = "Surname can only contain letters within the alphabet"
-                     break
-
-            for i in phoneNum.get():
-                # checks to see if phone number letters or other characters
-                if i not in ('1234567890'):
-                     Message = "Phone Number is incorrect"
-                     break
+            else:
+                confirm_sName()
 
             
+        def confirm_sName():
+            for i in sName.get():
+                # checks to see if numbers or non-alphabetical characters are in the first name entry 
+                if i not in 'abcdefghijklmnopqrstuvwxy ABCDEFGHIJKLMNOPQRSTUVWXYZ-':
+                     message = "Surname can only contain letters within the alphabet"
+                     print(message)
+                     break
             else:
-                controller.show_frame(coursePage)
-                   
+                check_address1()
+
+        def check_address1():
+            """This function uses regular expression patterns to validate the Address line 1 inputed by the student"""
+            
+            re_pattern = "(\d+).*?\s+(.+)"
+    
+            if re.match(re_pattern,address1.get()):
+                check_address2()
+
+            else:
+               message = "Address line 1 is incorrect, please check and re-enter"
+               print(message)
+
+        def check_address2():
+            """This function checks if address line 2 is Valid"""
+            
+            count = 0
+            
+            if len(address2.get().split())>2 or len(address2.get().split())<2:
+                message = "Address line 2 is incorrect, please check and re-enter"
+                print(message)
                 
+
+            else:
+               check_postcode()
+        
+
+        def check_postcode():
+            """This function uses regular expression patterns to validate the postcode inputed by the student"""
+            
+            re_pattern = "^([A-Z]{1,2}\d{1,2}|d[A-Z]{1,2}\d[A-Z])\d[A-Z]{2}$"
+    
+            if re.match(re_pattern,postcode.get()):
+                check_phoneNum()
+
+            else:
+               message = "postcode is incorrect, please check and re-enter"
+               print(message)
+            
+
+            
+        def check_phoneNum():
+
+            re_pattern = "^(07\d{8,12}|447\d{7,11})$"
+            re_pattern2 = "^(01\d{8,12}|447\d{7,11})$"
+            
+            if re.match(re_pattern,phoneNum.get()) or re.match(re_pattern2,phoneNum.get()):
+                check_email()
+
+            else:
+               message = "PhoneNumber is incorrect, please check and re-enter"
+               print(message)
+
+            
+
+        def check_email():
+
+            re_pattern = "[^@]+@[^@]+\.[^@]+"
+            
+            if re.match(re_pattern,email.get()):
+                controller.show_frame(coursePage)
+
+            else:
+               message = "email is not valid please enter valid email address"
+               print(message)
+               
+            
         #creates next to course page
         self.next = tk.PhotoImage(file='Icons/Buttons/next.png')
-        next_to_course = tk.Button(self,image=self.next,command=lambda:confirmNext())
+        next_to_course = tk.Button(self,image=self.next,command=lambda:check_empty())
         next_to_course.place(x=950, y=220)
         
 
