@@ -250,6 +250,9 @@ class studentDetails(tk.Frame):
         phoneNum = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         phoneNum.place(x=550, y=400)
 
+        email = tk.StringVar() #first name variable
+        email = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        email.place(x=550, y=450)
         
         
         #creates next to course page
@@ -478,6 +481,8 @@ class studentUnique(tk.Frame):
             
             cancel = ttk.Button(popup_window, text="Cancel", command = lambda:close_popup())
             cancel.grid(row=2, column=0,pady=0, padx=0,)
+
+
 
         
 app = ECR()
