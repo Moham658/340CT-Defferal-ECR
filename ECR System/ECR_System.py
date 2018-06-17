@@ -222,42 +222,70 @@ class studentDetails(tk.Frame):
 
         
                     
-        fName = tk.StringVar() #first name variable
         fName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         fName.place(x=550, y=100)
                     
-        sName = tk.StringVar() #first name variable
+        
         sName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         sName.place(x=550, y=150)
                     
-        address1 = tk.StringVar() #first name variable
+        
         address1 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         address1.place(x=550, y=200)
 
-        address2 = tk.StringVar() #first name variable
+        
         address2 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         address2.place(x=550, y=250)
         
-        county = tk.StringVar() #first name variable
+        
         county = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         county.place(x=550, y=300)
 
-        postode = tk.StringVar() #first name variable
+        
         postode = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         postode.place(x=550, y=350)
 
-        phoneNum = tk.StringVar() #first name variable
+        
         phoneNum = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         phoneNum.place(x=550, y=400)
 
-        email = tk.StringVar() #first name variable
+        
         email = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         email.place(x=550, y=450)
-        
-        
+
+        Message = ''
+
+        def confirmNext():
+            """This function checks all data entries for input errors, mistakes or
+                #empty feilds"""
+            
+            for i in fName.get():
+                # checks to see if numbers or non-alphabetical characters are in the first name entry 
+                if i not in ('abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ'):
+                     Message = "First Name can only contain letters within the alphabet and should not contain spaces"
+                     break
+                    
+
+            for i in sName.get():
+                # checks to see if numbers or non-alphabetical characters are in the surname name entry 
+                if i not in ('abcdefghijklmnopqrstuvwxy ABCDEFGHIJKLMNOPQRSTUVWXYZ'):
+                     Message = "Surname can only contain letters within the alphabet"
+                     break
+
+            for i in phoneNum.get():
+                # checks to see if phone number letters or other characters
+                if i not in ('1234567890'):
+                     Message = "Phone Number is incorrect"
+                     break
+
+            
+            else:
+                controller.show_frame(coursePage)
+                   
+                
         #creates next to course page
         self.next = tk.PhotoImage(file='Icons/Buttons/next.png')
-        next_to_course = tk.Button(self,image=self.next,command=lambda:controller.show_frame(coursePage))
+        next_to_course = tk.Button(self,image=self.next,command=lambda:confirmNext())
         next_to_course.place(x=950, y=220)
         
 
@@ -418,7 +446,7 @@ class studentUnique(tk.Frame):
     """This class creates the student unique username/password entry page"""
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.bg = tk.PhotoImage(file='Icons/Backgrounds/RegistrationPage.png')
+        self.bg = tk.PhotoImage(file='Icons/Backgrounds/userpass.png')
         main_window = tk.Label(self,image=self.bg)
         main_window.grid(pady=0,padx=0)
 
@@ -438,9 +466,9 @@ class studentUnique(tk.Frame):
 #-----------------------------------------------------------------------------------------------------------
 
 #creates next to confirmation Notification and previous buttons for course selection page
-        self.next = tk.PhotoImage(file='Icons/Buttons/next.png')
-        next_to_id = tk.Button(self,image=self.next,command=lambda:controller.show_frame(studentUnique))
-        next_to_id.place(x=1050, y=220)
+        self.finish = tk.PhotoImage(file='Icons/Buttons/complete.png')
+        complete = tk.Button(self,image=self.finish,command=lambda:controller.show_frame(studentUnique))
+        complete.place(x=1050, y=220)
 
         self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
         prev_to_id = tk.Button(self,image=self.prev,command=lambda:controller.show_frame(coursePage))
