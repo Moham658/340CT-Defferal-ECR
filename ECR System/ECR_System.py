@@ -205,7 +205,7 @@ class studentDetails(tk.Frame):
     """This class creates the student details entry page"""
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.bg = tk.PhotoImage(file='Icons/Backgrounds/RegistrationPage.png')
+        self.bg = tk.PhotoImage(file='Icons/Backgrounds/studentDetails.png')
         main_window = tk.Label(self,image=self.bg)
         main_window.grid(pady=0,padx=0)
 
