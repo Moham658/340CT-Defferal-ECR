@@ -17,17 +17,20 @@ class ECR(tk.Tk):
         self.frames = {} # container that holds all of the frames/pages that we create
 
 
-        frame1 = registrationPage(window, self) #each page is a frame
+        frame1 = studentDetails(window, self) #each page is a frame
         frame2 = welcome_page(window, self)
         frame3 = Main_menu(window, self)
+        frame4 = coursePage(window, self)
         
-        self.frames[registrationPage] = frame1
+        self.frames[studentDetails] = frame1
         self.frames[welcome_page] = frame2
         self.frames[Main_menu] = frame3
+        self.frames[coursePage] = frame4
 
         frame1.grid(row=0, column=0, sticky="nsew")
         frame2.grid(row=0, column=0, sticky="nsew")
         frame3.grid(row=0, column=0, sticky="nsew")
+        frame4.grid(row=0, column=0, sticky="nsew")
         
         self.show_frame(welcome_page)
 
@@ -106,8 +109,7 @@ class Main_menu(tk.Frame):
         label.grid(pady=0,padx=0)
 
         def welcome_student():
-            """This function produces a welcome back pop when the user details are correct
-                & displays the user image for that specific user"""
+            """This function produces a reminder message on a pop to remind the student what details will be required"""
 
             begin_register.config(state='disabled')
             quit_r.config(state='disabled')
@@ -123,7 +125,7 @@ class Main_menu(tk.Frame):
                 begin_register.config(state='active')
                 quit_r.config(state='active')
                 popup_window.destroy()
-                controller.show_frame(registrationPage)
+                controller.show_frame(studentDetails)
 
             def canc_close_popup():
                 begin_register.config(state='active')
@@ -193,9 +195,11 @@ class Main_menu(tk.Frame):
 #MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMo`    `-oNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM:`    `:yMMMMMMMMMMMMMMMMM
 #MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNMMMMMMMMMMMMMMMMMMMMM
 
+
+#-------------###### Student Address ######----------------#
     
-class registrationPage(tk.Frame):
-    """This class creates the Booking page"""
+class studentDetails(tk.Frame):
+    """This class creates the student details entry page"""
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.bg = tk.PhotoImage(file='Icons/Backgrounds/RegistrationPage.png')
@@ -205,13 +209,107 @@ class registrationPage(tk.Frame):
 
 
         
-#-------------------------------------------------- Course Table --------------------------------------------------#
-
-        #creates the treeview table which contains the course columns
+        title = ['Mr', 'Mrs', 'Miss', 'Ms'] #list containing titles for drop down menu
+        
+        #creates title drop down menu
+        select_title = ttk.Combobox(self,values=title, justify='center')
+        select_title.current(0)  #sets firsts day to monday
+        select_title['state'] = 'readonly'
+        select_title.place(x=620, y=50,width = 100,height = 30)
 
         
+                    
+        fName = tk.StringVar() #first name variable
+        fName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        fName.place(x=550, y=100)
+                    
+        sName = tk.StringVar() #first name variable
+        sName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        sName.place(x=550, y=150)
+                    
+        address1 = tk.StringVar() #first name variable
+        address1 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        address1.place(x=550, y=200)
+
+        address2 = tk.StringVar() #first name variable
+        address2 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        address2.place(x=550, y=250)
+        
+        county = tk.StringVar() #first name variable
+        county = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        county.place(x=550, y=300)
+
+        postode = tk.StringVar() #first name variable
+        postode = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        postode.place(x=550, y=350)
+
+        phoneNum = tk.StringVar() #first name variable
+        phoneNum = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        phoneNum.place(x=550, y=400)
+
+        
+        
+        #creates next to course page
+        self.next = tk.PhotoImage(file='Icons/Buttons/next.png')
+        next_to_course = tk.Button(self,image=self.next,command=lambda:controller.show_frame(coursePage))
+        next_to_course.place(x=950, y=220)
+        
+
+
+#------------------------------------------------------------------------------------------------------------------#   
+
+        #quit button to back to Main Page
+        self.quit_img = tk.PhotoImage(file='Icons/Buttons/quit.png')
+        quit_r = tk.Button(self,image=self.quit_img, command=lambda:prompt_signout())#including quit
+        quit_r.place(x=1295, y=415)
+
+                
+            
+        def prompt_signout():
+            """Function incharge of quitting (back to Main page)"""
+            quit_r.config(state='disabled')
+            popup_window= tk.Tk()
+            popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
+            popup_window.wm_title("Are you sure?")
+
+            def quit():
+                quit_r.config(state='normal')
+                controller.show_frame(Main_menu)
+                popup_window.destroy()
+            
+            def close_popup():
+                quit_r.config(state='normal')
+                popup_window.destroy()
+
+            
+                
+            label = ttk.Label(popup_window, text="Are you sure you want to quit",font=("bold",12))
+            label.grid(row=0, column=0,padx=70,pady=13)
+
+            Okay = ttk.Button(popup_window, text="Okay", command = lambda:quit())
+            Okay.grid(row=1, column=0,pady=0, padx=0,)
+            
+            cancel = ttk.Button(popup_window, text="Cancel", command = lambda:close_popup())
+            cancel.grid(row=2, column=0,pady=0, padx=0,)
+
+
+            
+
+#-------------###### Student Address ######----------------#
+
+class coursePage(tk.Frame):
+    """This class creates the Course page"""
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.bg = tk.PhotoImage(file='Icons/Backgrounds/RegistrationPage.png')
+        main_window = tk.Label(self,image=self.bg)
+        main_window.grid(pady=0,padx=0)
+
+
+
+        #creates the treeview table which contains the course columns
         self.treeviewCourses = ttk.Treeview(main_window)
-        self.treeviewCourses.place(x=95, y=215)
+        self.treeviewCourses.place(x=255, y=115)
         
         dataColumns = ('Course', 'Type', 'Code','Start', 'End', 'Hours','Available Spaces') #column names
 
@@ -255,54 +353,18 @@ class registrationPage(tk.Frame):
         #only allows one course to be selected and returned
         self.treeviewCourses.config(selectmode='browse')
         self.treeviewCourses.bind('<<TreeviewSelect>>', getselected)
-
-
-#----------------------------------------------Student Data Entries------------------------------------------------#
-
-        
-        title = ['Mr', 'Mrs', 'Miss', 'Ms'] #list containing titles for drop down menu
-        
-        #creates title drop down menu
-        select_title = ttk.Combobox(self,values=title, justify='center')
-        select_title.current(0)  #sets firsts day to monday
-        select_title['state'] = 'readonly'
-        select_title.place(x=115, y=50,width = 100,height = 30)
-
-        
-                    
-        fName = tk.StringVar() #first name variable
-        fName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
-        fName.place(x=115, y=90)
-                    
-        sName = tk.StringVar() #first name variable
-        sName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
-        sName.place(x=115, y=130)
-                    
-        address1 = tk.StringVar() #first name variable
-        address1 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
-        address1.place(x=115, y=170)
-
-        address2 = tk.StringVar() #first name variable
-        address2 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
-        address2.place(x=450, y=50)
-        
-        county = tk.StringVar() #first name variable
-        county = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
-        county.place(x=115, y=90)
-
-        postode = tk.StringVar() #first name variable
-        postode = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
-        postode.place(x=115, y=130)
-
-        phoneNum = tk.StringVar() #first name variable
-        phoneNum = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
-        phoneNum.place(x=115, y=170)
-        
         
 
 
         
+        #creates next to student id/password and previous buttons for student address detail page
+        self.next = tk.PhotoImage(file='Icons/Buttons/next.png')
+        next_to_id = tk.Button(self,image=self.next,command=lambda:controller.show_frame(coursePage))
+        next_to_id.place(x=1050, y=220)
 
+        self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
+        prev_to_id = tk.Button(self,image=self.prev,command=lambda:controller.show_frame(studentDetails))
+        prev_to_id.place(x=90, y=220)
 
 #------------------------------------------------------------------------------------------------------------------#   
 
@@ -339,9 +401,6 @@ class registrationPage(tk.Frame):
             
             cancel = ttk.Button(popup_window, text="Cancel", command = lambda:close_popup())
             cancel.grid(row=2, column=0,pady=0, padx=0,)
-
-
-
 
             
 app = ECR()
