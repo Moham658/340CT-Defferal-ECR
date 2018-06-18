@@ -261,6 +261,7 @@ class studentDetails(tk.Frame):
         self.message = '' #pre prepared message for invalid inputs will be stored here and displayed insie the invalid pop up window below
 
         def invalid_pop():
+            
             """This function produces an invalid message on a pop when an input is invalid"""
 
             next_to_course.config(state='disabled')
@@ -269,7 +270,7 @@ class studentDetails(tk.Frame):
             popup_window.attributes('-alpha', 0.86)
             popup_window.wm_title("invalid details")
             imageLabel = tk.Label(popup_window, text=self.message)
-            imageLabel.pack(padx=185, pady=45)
+            imageLabel.pack(padx=185, pady=55)
 
             def canc_close_popup():
                 next_to_course.config(state='active')
@@ -281,16 +282,57 @@ class studentDetails(tk.Frame):
 
             popup_window.mainloop()
 
+
+        def invalid_pop2():
+
+            """This function produces an invalid message on a pop when a student is already registered"""
+
+            next_to_course.config(state='disabled')
+            quit_r.config(state='disabled')
+            popup_window= tk.Toplevel()
+            popup_window.attributes('-alpha', 0.86)
+            popup_window.wm_title("invalid details")
+            imageLabel = tk.Label(popup_window, text=self.message)
+            imageLabel.pack(padx=185, pady=50)
+
+            def canc_close_popup():
+                next_to_course.config(state='active')
+                quit_r.config(state='active')
+                popup_window.destroy()
+
+            ok = ttk.Button(popup_window, text="OK", width = 23, command = lambda:canc_close_popup())#remains in to Main_menu frame
+            ok.place(x=330,y=185)
+
+            popup_window.mainloop()
+
+
+
+
+
         def valid_pop():
+            
             """This function produces an valid message on a pop when all inputs are invalid"""
 
             getdata = (select_title.get(), DoB.get(), fName.get(), sName.get(), \
                        address1.get(), address2.get(), county.get(), postcode.get(), phoneNum.get(),email.get())
 
-            #if studentProcess.checkExists(getdata) == True:
-                #self.message = fName.get()+ ' ' + sName.get() + '\n' +'DoB: ' + DoB.get()+'\n'+' is already a registered student studying ' +"""######"""+ ' with student id ' + """""" +\
-                               #'\n'+'if you wish to change course, you must speak to a member of staff at reception.'+\n+'Alternatively you can email the registrations team at registration@cov'
-
+            if studentProcess.checkExists(getdata) == True:
+                #if student is already registered gets details for message
+                #title, first name, second name and student id
+                #Type of course i.e full time/part time
+                # course name
+                #start date, end date
+                self.message = select_title.get()+' '+ fName.get()+ ' ' + sName.get() + '('+ str(studentProcess.getRegStudId(getdata))+')'\
+                               +'\n' +'DoB: ' + DoB.get()+'\n'*2+' is already a registered student studying '\
+                               +str(studentProcess.getCourseDetails(studentProcess.getRegCourseId(studentProcess.getRegStudId(getdata)))[2])+ ' ' \
+                               +str(studentProcess.getCourseDetails(studentProcess.getRegCourseId(studentProcess.getRegStudId(getdata)))[0])+ ' ' + '('+\
+                               str(studentProcess.getRegCourseId(studentProcess.getRegStudId(getdata))) +')'+\
+                               '\n'+ 'Duration: ''('+ str(studentProcess.getCourseDetails(studentProcess.getRegCourseId(studentProcess.getRegStudId(getdata)))[3]) + ' - ' \
+                               + str(studentProcess.getCourseDetails(studentProcess.getRegCourseId(studentProcess.getRegStudId(getdata)))[4])+')'+'\n'*2\
+                               +'if you wish to change course, you must speak to a member of staff at reception.'+'\n'+'Alternatively you can email the registrations team at registration@cov.uk'
+                
+                invalid_pop2()
+                
             next_to_course.config(state='disabled')
             quit_r.config(state='disabled')
             popup_window= tk.Toplevel()
@@ -298,15 +340,27 @@ class studentDetails(tk.Frame):
             popup_window.wm_title("invalid details")
             imageLabel = tk.Label(popup_window, text="Congratulations all fields are correct your ready "+"\n"+"to progress to the next stage to select your "+"\n" + "course")
             imageLabel.pack(padx=185, pady=45)
+
+
+
             
             def proc_close_popup():
+                
+                """This function closes valid pop-up message and stores student
+                    details in temporary table and moves to course selection stage"""
+                
                 next_to_course.config(state='active')
                 quit_r.config(state='active')
+                
                 controller.show_frame(coursePage)
                 popup_window.destroy()
+                
 
 
             def canc_close_popup():
+                
+                """This function closes pop-up and remains in student details page"""
+                
                 next_to_course.config(state='active')
                 quit_r.config(state='active')
                 popup_window.destroy()

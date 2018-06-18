@@ -13,30 +13,27 @@ def getCourses():
 
 
 def checkExists(list):
-    
+    """This function checks to see if a registering student is already registered """
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()
     
     check_exists = c.execute("SELECT title,name,surname,id  FROM Students WHERE DoB=? AND name=? AND surname=?", (list[1],list[2],list[3])).fetchall() # checks if session is free
-    return bool(check_exists)
+    return bool(check_exists) #if student exists it returns true 
 
 
 def getRegStudId(list):
-    
+    """This function gets the registered students id for pop-up message"""
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()
     
-    check_exists = c.execute("SELECT title,name,surname,id  FROM Students WHERE DoB=? AND name=? AND surname=?", (list[1],list[2],list[3])).fetchall() # checks if session is free
-    details = check_exists[0]
+    getStudDet = c.execute("SELECT title,name,surname,id  FROM Students WHERE DoB=? AND name=? AND surname=?", (list[1],list[2],list[3])).fetchall() # checks if session is free
+    details = getStudDet[0]
     return (details[3])
-
-print(getRegStudId(('0','15/07/1994','Ahmed','Mohammed')))
-        
 
 
 
 def getRegCourseId(student_id):
-   
+    """This function gets the registered students course theyre registered on for pop-up message"""
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()
     
@@ -45,11 +42,10 @@ def getRegCourseId(student_id):
     return (details[0])
 
 
-print(getRegCourseId(getRegStudId(('0','15/07/1994','Ahmed','Mohammed'))))
 
 
 def getCourseDetails(courseCode):
-    
+    """This function gets the registered students course details for pop-up message"""
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()
     
@@ -57,4 +53,8 @@ def getCourseDetails(courseCode):
     details = courseDetails[0]
     return (details)
 
-print(getCourseDetails(getRegCourseId(getRegStudId(('0','15/07/1994','Ahmed','Mohammed')))))
+
+def TempStudDet(list):
+    """This function stores the students details in a temporary table until full registration is complete"""
+    return True
+    
