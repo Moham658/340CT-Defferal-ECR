@@ -214,6 +214,11 @@ class studentDetails(tk.Frame):
 
         
         title = ['Mr', 'Mrs', 'Miss', 'Ms'] #list containing titles for drop down menu
+
+
+        DoB = tk.Entry(self, width=21,font=("Helvetica", 12, "bold") )
+        DoB.place(x=903, y= 52)
+
         
         #creates title drop down menu
         select_title = ttk.Combobox(self,values=title, justify='center')
@@ -222,7 +227,6 @@ class studentDetails(tk.Frame):
         select_title.place(x=620, y=50,width = 100,height = 30)
 
         
-        fName = StringVar()
         fName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         fName.place(x=550, y=100)
                     
@@ -273,12 +277,19 @@ class studentDetails(tk.Frame):
                 popup_window.destroy()
 
             ok = ttk.Button(popup_window, text="OK", width = 23, command = lambda:canc_close_popup())#remains in to Main_menu frame
-            ok.place(x=230,y=75)
+            ok.place(x=230,y=95)
 
             popup_window.mainloop()
 
         def valid_pop():
             """This function produces an valid message on a pop when all inputs are invalid"""
+
+            getdata = (select_title.get(), DoB.get(), fName.get(), sName.get(), \
+                       address1.get(), address2.get(), county.get(), postcode.get(), phoneNum.get(),email.get())
+
+            #if studentProcess.checkExists(getdata) == True:
+                #self.message = fName.get()+ ' ' + sName.get() + '\n' +'DoB: ' + DoB.get()+'\n'+' is already a registered student studying ' +"""######"""+ ' with student id ' + """""" +\
+                               #'\n'+'if you wish to change course, you must speak to a member of staff at reception.'+\n+'Alternatively you can email the registrations team at registration@cov'
 
             next_to_course.config(state='disabled')
             quit_r.config(state='disabled')
@@ -287,7 +298,7 @@ class studentDetails(tk.Frame):
             popup_window.wm_title("invalid details")
             imageLabel = tk.Label(popup_window, text="Congratulations all fields are correct your ready "+"\n"+"to progress to the next stage to select your "+"\n" + "course")
             imageLabel.pack(padx=185, pady=45)
-
+            
             def proc_close_popup():
                 next_to_course.config(state='active')
                 quit_r.config(state='active')
@@ -308,18 +319,31 @@ class studentDetails(tk.Frame):
             
             popup_window.mainloop()
 
-        
+
         def check_empty():
             """ This Function checks to see if any mandetory fields are empty, if so creates an error message for pop else it moves on to the
                 next error check"""
             if fName.get() == '' or sName.get() == '' or address1.get() == ''or address2.get() == ''\
-               or postcode.get() == ''or phoneNum.get() == ''or email.get() == '':
+               or postcode.get() == ''or phoneNum.get() == ''or email.get() == ''or DoB.get() =='':
                 
                 self.message="Please Enusre all mandetory fields are filled in" #all check functions contain a message update for invalid pop up
                 invalid_pop() #all check finctions run the pop up with the matching invalid message 
             
             else:
-                check_fName()#all check functions if succesful runs the next check function 
+                check_DoB()#all check functions if succesful runs the next check function
+
+        def check_DoB():
+            """This function uses regular expression patterns to validate the date of birth inputed by the student"""
+            
+            re_pattern = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$" #regular expression for UK first line address
+    
+            if re.match(re_pattern,DoB.get()):
+                check_fName()
+
+            else:
+               self.message = "You have inputted an incorrect date of birth. "+"\n"+"Please input correct date of birth"
+               invalid_pop()
+
                 
         def check_fName():
             """This function checks to see if the first name is a valid name"""
@@ -327,7 +351,7 @@ class studentDetails(tk.Frame):
             for i in fName.get():
                 # checks to see if phone number letters or other 
                 if i not in ('abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ-'):
-                     self.message = "First Name can only contain letters within the alphabet and should not contain spaces"
+                     self.message = "First Name can only contain letters within "+"\n"+"the alphabet and should not contain spaces"
                      invalid_pop()
                     
             else:
