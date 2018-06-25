@@ -861,6 +861,18 @@ class studentUnique(tk.Frame):
 
 
 
+#-------------###### Student username/password ######----------------#
+    
+class NotificationPage(tk.Frame):
+    """This class creates the student unique username/password entry page"""
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.bg = tk.PhotoImage(file='Icons/Backgrounds/notification.png')
+        main_window = tk.Label(self,image=self.bg)
+        main_window.grid(pady=0,padx=0)
+
+
+
         
 app = ECR()
 app.mainloop()
