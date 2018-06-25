@@ -56,5 +56,34 @@ def getCourseDetails(courseCode):
 
 def TempStudDet(list):
     """This function stores the students details in a temporary table until full registration is complete"""
-    return True
+
+    studentId = incrementStudId()
+    title = list[0]
+    DoB = list[1]
+    name = list[2]
+    surname = list[3]
+    address1 = list[4]
+    address2 = list[5]
+    county = list[6]
+    postcode = list[7]
+    phoneNo = list[8]
+    email = list[9]
+
+    conn = db.connect('ECRS_db.db')
+    c = conn.cursor()    
+    c.execute('UPDATE temporary SET studentId = ? ,title = ? ,name =? ,surname =?, address1 =?, address2=?,county=?, postcode = ?, phoneNo = ?, email = ?, DoB = ? WHERE temp1=?' \
+              ,(studentId,title, name,surname,address1,address2,county,postcode,phoneNo,email,DoB,'TempHere'))
+    conn.commit() 
+
     
+def incrementStudId():
+    """This function gets the last registered students id and increments it for the next registering student"""
+    conn = db.connect('ECRS_db.db')
+    c = conn.cursor()
+    
+    getlastStudent = c.execute("SELECT id FROM Students").fetchall() # checks if session is free
+    lastStudent = getlastStudent[-1]
+    newStudentId = int(lastStudent[0])+1
+    
+    return (newStudentId)
+

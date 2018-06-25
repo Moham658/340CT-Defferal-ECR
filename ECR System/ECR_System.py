@@ -36,7 +36,7 @@ class ECR(tk.Tk):
         frame4.grid(row=0, column=0, sticky="nsew")
         frame5.grid(row=0, column=0, sticky="nsew")
         
-        self.show_frame(welcome_page)
+        self.show_frame(coursePage)
 
 
         
@@ -351,7 +351,7 @@ class studentDetails(tk.Frame):
                 
                 next_to_course.config(state='active')
                 quit_r.config(state='active')
-                
+                studentProcess.TempStudDet(getdata)
                 controller.show_frame(coursePage)
                 popup_window.destroy()
                 
@@ -509,17 +509,20 @@ class studentDetails(tk.Frame):
         def prompt_signout():
             """Function incharge of quitting (back to Main page)"""
             quit_r.config(state='disabled')
+            next_to_course.config(state='disabled')
             popup_window= tk.Tk()
             popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
             popup_window.wm_title("Are you sure?")
 
             def quit():
                 quit_r.config(state='normal')
+                next_to_course.config(state='normal')
                 controller.show_frame(Main_menu)
                 popup_window.destroy()
-            
+                
             def close_popup():
                 quit_r.config(state='normal')
+                next_to_course.config(state='normal')
                 popup_window.destroy()
 
             
@@ -589,18 +592,21 @@ class coursePage(tk.Frame):
             
         def getselected(treeview):
             """Function that gets/returns the selected course from the course table"""
-            print(self.treeviewCourses.selection())
+            selected = self.treeviewCourses.focus()
+            item = (self.treeviewCourses.item(selected))
+            return(item["values"])#returns row of values from course table
+        
 
         #only allows one course to be selected and returned
         self.treeviewCourses.config(selectmode='browse')
-        self.treeviewCourses.bind('<<TreeviewSelect>>', getselected)
+        self.treeviewCourses.bind('<ButtonRelease-1>', getselected)
         
 
 #------------------------------------------------------------------------------------------------------------------#   
         
         #creates next to student id/password and previous buttons for student address detail page
         self.next = tk.PhotoImage(file='Icons/Buttons/next.png')
-        next_to_id = tk.Button(self,image=self.next,command=lambda:controller.show_frame(studentUnique))
+        next_to_id = tk.Button(self,image=self.next,command=lambda:print((getselected(self.treeviewCourses))[6]))
         next_to_id.place(x=1050, y=220)
 
         self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
@@ -617,18 +623,25 @@ class coursePage(tk.Frame):
                 
             
         def prompt_signout():
-            """Function incharge of quitting (back to Main page)"""
+            """Function incharge of quitting (back to students details page)"""
             quit_r.config(state='disabled')
+            next_to_id.config(state='disabled')
+            prev_to_id.config(state='disabled')
+        
             popup_window= tk.Tk()
             popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
             popup_window.wm_title("Are you sure?")
 
             def quit():
+                next_to_id.config(state='normal')
+                prev_to_id.config(state='normal')
                 quit_r.config(state='normal')
                 controller.show_frame(Main_menu)
                 popup_window.destroy()
             
             def close_popup():
+                next_to_id.config(state='normal')
+                prev_to_id.config(state='normal')
                 quit_r.config(state='normal')
                 popup_window.destroy()
 
