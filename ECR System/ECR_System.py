@@ -36,7 +36,7 @@ class ECR(tk.Tk):
         frame4.grid(row=0, column=0, sticky="nsew")
         frame5.grid(row=0, column=0, sticky="nsew")
         
-        self.show_frame(coursePage)
+        self.show_frame(studentUnique)
 
 
         
@@ -655,6 +655,7 @@ class coursePage(tk.Frame):
             
             
             def close_popup():
+                """function that closes pop-up"""
                 next_to_id.config(state='normal')
                 prev_to_id.config(state='normal')
                 quit_r.config(state='normal')
@@ -662,6 +663,7 @@ class coursePage(tk.Frame):
 
             
             def choose():
+                """function that writes to db course chosen"""
                 next_to_id.config(state='normal')
                 prev_to_id.config(state='normal')
                 quit_r.config(state='normal')
@@ -673,7 +675,7 @@ class coursePage(tk.Frame):
             Okay = ttk.Button(popup_window, text="Okay", command = lambda:choose())
             Okay.place(x=270,y=245)
 
-            cancel = ttk.Button(popup_window, text="Okay", command = lambda:close_popup())
+            cancel = ttk.Button(popup_window, text="Cancel", command = lambda:close_popup())
             cancel.place(x=350,y=245)
 
             
@@ -777,11 +779,24 @@ class studentUnique(tk.Frame):
         self.finish = tk.PhotoImage(file='Icons/Buttons/complete.png')
         complete = tk.Button(self,image=self.finish,command=lambda:controller.show_frame(studentUnique))
         complete.place(x=1050, y=220)
+        complete.config(state='disabled')
 
         self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
         prev_to_id = tk.Button(self,image=self.prev,command=lambda:controller.show_frame(coursePage))
         prev_to_id.place(x=90, y=220)
 
+        def check_availability():
+            #info available username box
+            available = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Available",fg="green" )
+            available.place(x=596, y=125)
+            
+            #info available username box
+            unavailable = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Unavailable",fg="red" )
+            unavailable.place(x=596, y=125)
+        
+        self.check_pick = tk.PhotoImage(file='Icons/Buttons/check.png')
+        check = tk.Button(self,image=self.check_pick,command=lambda:check_availability())
+        check.place(x=772, y=93)
 
 
         #quit button to back to Main Page
@@ -790,21 +805,27 @@ class studentUnique(tk.Frame):
         quit_r.place(x=1295, y=415)
 
                 
-            
+           
         def prompt_signout():
             """Function incharge of quitting (back to Main page)"""
             quit_r.config(state='disabled')
+            prev_to_id.config(state='disabled')
+            complete.config(state='disabled')
             popup_window= tk.Tk()
             popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
             popup_window.wm_title("Are you sure?")
 
             def quit():
                 quit_r.config(state='normal')
+                prev_to_id.config(state='normal')
+                complete.config(state='normal')
                 controller.show_frame(Main_menu)
                 popup_window.destroy()
             
             def close_popup():
                 quit_r.config(state='normal')
+                prev_to_id.config(state='normal')
+                complete.config(state='normal')
                 popup_window.destroy()
 
             
