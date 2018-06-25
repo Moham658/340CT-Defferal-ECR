@@ -777,7 +777,7 @@ class studentUnique(tk.Frame):
 
 #creates next to confirmation Notification and previous buttons for course selection page
         self.finish = tk.PhotoImage(file='Icons/Buttons/complete.png')
-        complete = tk.Button(self,image=self.finish,command=lambda:controller.show_frame(studentUnique))
+        complete = tk.Button(self,image=self.finish,command=lambda:complete_details())
         complete.place(x=1050, y=220)
         complete.config(state='disabled')
 
@@ -787,8 +787,13 @@ class studentUnique(tk.Frame):
 
 
         def complete_details():
-                   
-            return True
+            #regular expression for Minimum eight characters,
+            #at least one uppercase letter, one lowercase letter and one number
+            
+            re_pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+            if re.match(re_pattern,pWord2.get()) and re.match(re_pattern,pWord.get()):
+                if pWord.get()==pWord2.get():
+                    print("Hurray")
 
         def check_availability():
             #regular expression for Minimum eight characters,
@@ -796,7 +801,7 @@ class studentUnique(tk.Frame):
             
             re_pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
     
-               
+            #username/password must not exist and must follow regex for it to be valid   
             if studentProcess.CheckUsername(uName.get())==True and re.match(re_pattern,uName.get()):
                 #info available username box
                 available = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Available",fg="green" )
