@@ -665,8 +665,8 @@ class coursePage(tk.Frame):
                 next_to_id.config(state='normal')
                 prev_to_id.config(state='normal')
                 quit_r.config(state='normal')
+                studentProcess.TempStudCourse(getselected(self.treeviewCourses)[1])
                 popup_window.destroy()
-                
                 controller.show_frame(studentUnique)
                 
 

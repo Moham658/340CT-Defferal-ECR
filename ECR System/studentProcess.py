@@ -75,6 +75,14 @@ def TempStudDet(list):
               ,(studentId,title, name,surname,address1,address2,county,postcode,phoneNo,email,DoB,'TempHere'))
     conn.commit() 
 
+def TempStudCourse(course):
+    """This function stores the students details in a temporary table until full registration is complete"""
+
+    conn = db.connect('ECRS_db.db')
+    c = conn.cursor()    
+    c.execute('UPDATE temporary SET courseId = ?  WHERE temp1=?' ,(course,'TempHere'))
+    conn.commit() 
+
     
 def incrementStudId():
     """This function gets the last registered students id and increments it for the next registering student"""
