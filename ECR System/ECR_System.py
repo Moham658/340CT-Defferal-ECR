@@ -15,7 +15,7 @@ class ECR(tk.Tk):
         window.grid_rowconfigure(0, weight=1)
         window.grid_columnconfigure(0, weight=1)
 
-        self.frames = {} # container that holds all of the frames/pages that we create
+        self.frames = {} # container that holds all of the frames/pages that we creatje
 
 
         frame1 = studentDetails(window, self) #each page is a frame
@@ -787,12 +787,17 @@ class studentUnique(tk.Frame):
 
 
         def complete_details():
-            #"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"       regex for password validation Minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+                   
             return True
 
         def check_availability():
+            #regular expression for Minimum eight characters,
+            #at least one uppercase letter, one lowercase letter and one number
             
-            if studentProcess.CheckUsername(uName.get())==True:
+            re_pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+    
+               
+            if studentProcess.CheckUsername(uName.get())==True and re.match(re_pattern,uName.get()):
                 #info available username box
                 available = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Available",fg="green" )
                 available.place(x=596, y=125)
