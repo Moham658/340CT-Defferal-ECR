@@ -600,17 +600,105 @@ class coursePage(tk.Frame):
         #only allows one course to be selected and returned
         self.treeviewCourses.config(selectmode='browse')
         self.treeviewCourses.bind('<ButtonRelease-1>', getselected)
+
+
+        def prompt_full():
+            """Function that prompts a display message if course is full"""
+            
+            quit_r.config(state='disabled')
+            next_to_id.config(state='disabled')
+            prev_to_id.config(state='disabled')
+        
+            popup_window= tk.Tk()
+            popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
+            popup_window.wm_title("Course Full")
+            #message with course name and course type
+            imageLabel = tk.Label(popup_window, text="Im sorry but the course you have chosen ("\
+                                  + str(getselected(self.treeviewCourses)[0])+ ", " +\
+                                  str(getselected(self.treeviewCourses)[2]) +") is full."+ "\n" + \
+                                  "Please speak to member of staff at reception if you wish for us "+ "\n" + \
+                                  "to email you when this course is free.")
+            
+            imageLabel.pack(padx=185, pady=50)
+            
+            
+            def close_popup():
+                next_to_id.config(state='normal')
+                prev_to_id.config(state='normal')
+                quit_r.config(state='normal')
+                popup_window.destroy()
+
+            Okay = ttk.Button(popup_window, text="Okay", command = lambda:close_popup())
+            Okay.place(x=330,y=105)
+
+
+        def prompt_choose():
+            """Function that prompts a display message for final selection of course to take to the next stage"""
+            quit_r.config(state='disabled')
+            next_to_id.config(state='disabled')
+            prev_to_id.config(state='disabled')
+        
+            popup_window= tk.Tk()
+            popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
+            popup_window.wm_title("Are you sure?")
+            imageLabel = tk.Label(popup_window, text="You have chosen to study:-"+ "\n"*2 +\
+                                  str(getselected(self.treeviewCourses)[0])+ " (" +\
+                                  str(getselected(self.treeviewCourses)[1])+ ")" + " - "  +\
+                                  str(getselected(self.treeviewCourses)[2])+ "\n" +\
+                                  "Date Starting: " +str(getselected(self.treeviewCourses)[3])+ " \n " +\
+                                  "Date Endind: " +str(getselected(self.treeviewCourses)[4])+ "\n" *2 +\
+                                  "You wont be able to cance this course once it has been chosen."+ "\n" +\
+                                  "In order to cancel you must speak to a member of staff at reception." + "\n" *2 +\
+                                  "Are you sure you want to choose this course?")
+            
+            imageLabel.pack(padx=185, pady=70)
+            
+            
+            def close_popup():
+                next_to_id.config(state='normal')
+                prev_to_id.config(state='normal')
+                quit_r.config(state='normal')
+                popup_window.destroy()
+
+            
+            def choose():
+                next_to_id.config(state='normal')
+                prev_to_id.config(state='normal')
+                quit_r.config(state='normal')
+                popup_window.destroy()
+                
+                controller.show_frame(studentUnique)
+                
+
+            Okay = ttk.Button(popup_window, text="Okay", command = lambda:choose())
+            Okay.place(x=270,y=245)
+
+            cancel = ttk.Button(popup_window, text="Okay", command = lambda:close_popup())
+            cancel.place(x=350,y=245)
+
+            
+            
+
+        
+        def check_course_free():
+                
+            if getselected(self.treeviewCourses)[6] == 0:
+                prompt_full()
+
+            else:
+                prompt_choose()
+                
         
 
 #------------------------------------------------------------------------------------------------------------------#   
         
         #creates next to student id/password and previous buttons for student address detail page
         self.next = tk.PhotoImage(file='Icons/Buttons/next.png')
-        next_to_id = tk.Button(self,image=self.next,command=lambda:print((getselected(self.treeviewCourses))[6]))
+        next_to_id = tk.Button(self,image=self.next,command=lambda:check_course_free())
         next_to_id.place(x=1050, y=220)
 
         self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
-        prev_to_id = tk.Button(self,image=self.prev,command=lambda:controller.show_frame(studentDetails))
+        prev_to_id = tk.Button(self,image=self.prev,command=lambda:check_course_free())
         prev_to_id.place(x=90, y=220)
 
 
