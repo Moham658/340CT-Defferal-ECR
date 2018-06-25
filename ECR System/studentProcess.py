@@ -76,7 +76,7 @@ def TempStudDet(list):
     conn.commit() 
 
 def TempStudCourse(course):
-    """This function stores the students details in a temporary table until full registration is complete"""
+    """This function stores the student's selected course in a temporary table until full registration is complete"""
 
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()    
@@ -94,4 +94,21 @@ def incrementStudId():
     newStudentId = int(lastStudent[0])+1
     
     return (newStudentId)
+
+def CheckUsername(username):
+    """This function checks if the username is free/available for use"""
+    conn = db.connect('ECRS_db.db')
+    c = conn.cursor()
+    
+    courseDetails = c.execute("SELECT CollUsername FROM StudentCollegeDet WHERE CollUsername=?", (username,)).fetchall() # checks if session is free
+    
+    if len(courseDetails) == 1:
+        #if username doesnt exist returns False (available)
+        return False
+    else:
+        return True
+
+
+
+
 

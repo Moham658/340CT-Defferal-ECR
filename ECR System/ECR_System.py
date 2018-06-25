@@ -785,14 +785,24 @@ class studentUnique(tk.Frame):
         prev_to_id = tk.Button(self,image=self.prev,command=lambda:controller.show_frame(coursePage))
         prev_to_id.place(x=90, y=220)
 
+
+        def complete_details():
+            #"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"       regex for password validation Minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+            return True
+
         def check_availability():
-            #info available username box
-            available = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Available",fg="green" )
-            available.place(x=596, y=125)
             
-            #info available username box
-            unavailable = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Unavailable",fg="red" )
-            unavailable.place(x=596, y=125)
+            if studentProcess.CheckUsername(uName.get())==True:
+                #info available username box
+                available = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Available",fg="green" )
+                available.place(x=596, y=125)
+                complete.config(state='normal')
+                
+            else:    
+                #info available username box
+                unavailable = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Unavailable",fg="red" )
+                unavailable.place(x=596, y=125)
+                complete.config(state='disabled')
         
         self.check_pick = tk.PhotoImage(file='Icons/Buttons/check.png')
         check = tk.Button(self,image=self.check_pick,command=lambda:check_availability())
