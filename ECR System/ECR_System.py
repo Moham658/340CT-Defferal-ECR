@@ -767,13 +767,14 @@ class studentUnique(tk.Frame):
         uName = tk.StringVar() #first name variable
         uName = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
         uName.place(x=550, y=100)
+
                     
-        pWord = tk.StringVar() #first name variable
-        pWord = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        pWord_ = tk.StringVar() #first name variable
+        pWord = tk.Entry(self, width=24,font=("Helvetica", 12, "bold"),textvariable= pWord_, show='*')
         pWord.place(x=550, y=150)
                     
-        pWord2 = tk.StringVar() #first name variable
-        pWord2 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold") )
+        pWord2_ = tk.StringVar() #first name variable
+        pWord2 = tk.Entry(self, width=24,font=("Helvetica", 12, "bold"),textvariable= pWord2_, show='*' )
         pWord2.place(x=550, y=200)
         
 #-----------------------------------------------------------------------------------------------------------
@@ -782,13 +783,43 @@ class studentUnique(tk.Frame):
         self.finish = tk.PhotoImage(file='Icons/Buttons/complete.png')
         self.complete = tk.Button(self,image=self.finish,command=lambda:complete_details())
         self.complete.place(x=1050, y=220)
-        self.complete.config(state='disabled')
 
         self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
         prev_to_id = tk.Button(self,image=self.prev,command=lambda:controller.show_frame(coursePage))
         prev_to_id.place(x=90, y=220)
 
+        
+        
+        def prompt_incomplete():
+            """Function that prompts a display message for registration completion (notification page)"""
+            quit_r.config(state='disabled')
+            self.complete.config(state='disabled')
+            prev_to_id.config(state='disabled')
+            uName.config(state='disabled')
+            pWord.config(state='disabled')
+            pWord2.config(state='disabled')
+            
+            popup_window= tk.Tk()
+            popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
+            popup_window.wm_title("Are you sure?")
+            imageLabel = tk.Label(popup_window, text="The Username or Password is Incorrect, Please check and try again")
+            
+            imageLabel.pack(padx=185, pady=70)
+            
+            
+            def close_popup():
+                """function that closes pop-up"""
+                self.complete.config(state='normal')
+                prev_to_id.config(state='normal')
+                quit_r.config(state='normal')
+                uName.config(state='normal')
+                pWord.config(state='normal')
+                pWord2.config(state='normal')
+                popup_window.destroy()
 
+            okay = ttk.Button(popup_window, text="close", command = lambda:close_popup())
+            okay.place(x=350,y=105)
+                
 
         def prompt_complete():
             """Function that prompts a display message for registration completion (notification page)"""
@@ -829,6 +860,7 @@ class studentUnique(tk.Frame):
                 uName.config(state='normal')
                 pWord.config(state='normal')
                 pWord2.config(state='normal')
+                studentProcess.store_username_password((uName.get(),pWord.get()))
                 controller.show_frame(NotificationPage)
                 popup_window.destroy()
                 
@@ -853,6 +885,8 @@ class studentUnique(tk.Frame):
             if re.match(re_pattern,pWord2.get()) and re.match(re_pattern,pWord.get()):
                 if pWord.get()==pWord2.get():
                     prompt_complete()
+            else:
+                prompt_incomplete()
 
         def check_availability():
             """Function that checks if username is available and valid format"""
@@ -867,13 +901,13 @@ class studentUnique(tk.Frame):
                 #info available username box
                 available = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Available",fg="green" )
                 available.place(x=596, y=125)
-                self.complete.config(state='normal')
+                
                 
             else:    
                 #info available username box
                 unavailable = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Unavailable",fg="red" )
                 unavailable.place(x=596, y=125)
-                self.complete.config(state='disabled')
+                
         
         self.check_pick = tk.PhotoImage(file='Icons/Buttons/check.png')
         check = tk.Button(self,image=self.check_pick,command=lambda:check_availability())
@@ -931,7 +965,7 @@ class NotificationPage(tk.Frame):
         self.bg = tk.PhotoImage(file='Icons/Backgrounds/notification.png')
         main_window = tk.Label(self,image=self.bg)
         main_window.grid(pady=0,padx=0)
-
+        
         
 
 

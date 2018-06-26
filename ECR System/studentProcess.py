@@ -110,5 +110,18 @@ def CheckUsername(username):
 
 
 
+def store_username_password(list):
+    """This function stores the students username/password in a temporary table before sending to registration stage"""
+    username = list[0]
+    password = list[1]
+
+
+    conn = db.connect('ECRS_db.db')
+    c = conn.cursor()    
+    c.execute('UPDATE temporary SET CollUsername = ? ,CollPassword = ?  WHERE temp1=?' \
+              ,(username,password,'TempHere'))
+    conn.commit() 
+
+
 
 
