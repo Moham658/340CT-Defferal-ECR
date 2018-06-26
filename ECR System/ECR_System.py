@@ -895,9 +895,15 @@ class studentUnique(tk.Frame):
             #at least one uppercase letter, one lowercase letter and one number
             
             re_pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
-    
-            #username must not exist and must follow regex for it to be valid   
-            if studentProcess.CheckUsername(uName.get())==True and re.match(re_pattern,uName.get()):
+            
+            #username must not exist and must follow regex for it to be valid
+            if (bool(re.match(re_pattern,uName.get()))) == False:
+                #info invalid username box
+                invalid = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username invalid! ",fg="red" )
+                invalid.place(x=596, y=125)
+
+                
+            elif studentProcess.CheckUsername(uName.get())==True and re.match(re_pattern,uName.get()):
                 #info available username box
                 available = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Available",fg="green" )
                 available.place(x=596, y=125)
@@ -982,6 +988,14 @@ class NotificationPage(tk.Frame):
                 Message2.insert(INSERT, f.read())
             self.after(1000, Notification_message)
         Notification_message()
+
+        self.print_pic = tk.PhotoImage(file='Icons/Buttons/print.png')
+        print_button = tk.Button(self,image=self.print_pic)
+        print_button.place(x=1222, y=123)
+
+        self.exit_pic = tk.PhotoImage(file='Icons/Buttons/exit.png')
+        exit_button = tk.Button(self,image=self.exit_pic, command=lambda:controller.show_frame(welcome_page))
+        exit_button.place(x=1222, y=283)
         
 
 
