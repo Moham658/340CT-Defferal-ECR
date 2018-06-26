@@ -22,19 +22,22 @@ class ECR(tk.Tk):
         frame2 = welcome_page(window, self)
         frame3 = Main_menu(window, self)
         frame4 = coursePage(window, self)
-        frame5 = studentUnique(window, self) #each page is a frame
+        frame5 = studentUnique(window, self) 
+        frame6 = NotificationPage(window, self)
         
         self.frames[studentDetails] = frame1
         self.frames[welcome_page] = frame2
         self.frames[Main_menu] = frame3
         self.frames[coursePage] = frame4
         self.frames[studentUnique] = frame5
+        self.frames[NotificationPage] = frame6
 
         frame1.grid(row=0, column=0, sticky="nsew")
         frame2.grid(row=0, column=0, sticky="nsew")
         frame3.grid(row=0, column=0, sticky="nsew")
         frame4.grid(row=0, column=0, sticky="nsew")
         frame5.grid(row=0, column=0, sticky="nsew")
+        frame6.grid(row=0, column=0, sticky="nsew")
         
         self.show_frame(studentUnique)
 
@@ -777,42 +780,100 @@ class studentUnique(tk.Frame):
 
 #creates next to confirmation Notification and previous buttons for course selection page
         self.finish = tk.PhotoImage(file='Icons/Buttons/complete.png')
-        complete = tk.Button(self,image=self.finish,command=lambda:complete_details())
-        complete.place(x=1050, y=220)
-        complete.config(state='disabled')
+        self.complete = tk.Button(self,image=self.finish,command=lambda:complete_details())
+        self.complete.place(x=1050, y=220)
+        self.complete.config(state='disabled')
 
         self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
         prev_to_id = tk.Button(self,image=self.prev,command=lambda:controller.show_frame(coursePage))
         prev_to_id.place(x=90, y=220)
 
 
+
+        def prompt_complete():
+            """Function that prompts a display message for registration completion (notification page)"""
+            quit_r.config(state='disabled')
+            self.complete.config(state='disabled')
+            prev_to_id.config(state='disabled')
+            uName.config(state='disabled')
+            pWord.config(state='disabled')
+            pWord2.config(state='disabled')
+            
+            popup_window= tk.Tk()
+            popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
+            popup_window.wm_title("Are you sure?")
+            imageLabel = tk.Label(popup_window, text="You have chosen to the username"+ "\n"*2 +\
+                                  uName.get()+ "\n"*2 +\
+                                  "Once you complete, You cannot change any details unless you speak to a member of staff at reception"+\
+                                  "\n"+"Are you sure you want to continue?")
+            
+            imageLabel.pack(padx=185, pady=70)
+            
+            
+            def close_popup():
+                """function that closes pop-up"""
+                self.complete.config(state='normal')
+                prev_to_id.config(state='normal')
+                quit_r.config(state='normal')
+                uName.config(state='normal')
+                pWord.config(state='normal')
+                pWord2.config(state='normal')
+                popup_window.destroy()
+
+            
+            def complete_f():
+                """function that writes to db course chosen"""
+                self.complete.config(state='normal')
+                prev_to_id.config(state='normal')
+                quit_r.config(state='normal')
+                uName.config(state='normal')
+                pWord.config(state='normal')
+                pWord2.config(state='normal')
+                controller.show_frame(NotificationPage)
+                popup_window.destroy()
+                
+
+            complete_B = ttk.Button(popup_window, text="Complete", command = lambda:complete_f())
+            complete_B.place(x=350,y=185)
+
+            cancel = ttk.Button(popup_window, text="Cancel", command = lambda:close_popup())
+            cancel.place(x=470,y=185)
+            
+
+
+        
+        
         def complete_details():
+            """This Function checks to see if the password is in the correct format and both passwords match"""
+            
             #regular expression for Minimum eight characters,
             #at least one uppercase letter, one lowercase letter and one number
             
             re_pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
             if re.match(re_pattern,pWord2.get()) and re.match(re_pattern,pWord.get()):
                 if pWord.get()==pWord2.get():
-                    print("Hurray")
+                    prompt_complete()
 
         def check_availability():
+            """Function that checks if username is available and valid format"""
+            
             #regular expression for Minimum eight characters,
             #at least one uppercase letter, one lowercase letter and one number
             
             re_pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
     
-            #username/password must not exist and must follow regex for it to be valid   
+            #username must not exist and must follow regex for it to be valid   
             if studentProcess.CheckUsername(uName.get())==True and re.match(re_pattern,uName.get()):
                 #info available username box
                 available = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Available",fg="green" )
                 available.place(x=596, y=125)
-                complete.config(state='normal')
+                self.complete.config(state='normal')
                 
             else:    
                 #info available username box
                 unavailable = tk.Label(self, width=18,font=("Helvetica", 8, "bold"),text="Username Unavailable",fg="red" )
                 unavailable.place(x=596, y=125)
-                complete.config(state='disabled')
+                self.complete.config(state='disabled')
         
         self.check_pick = tk.PhotoImage(file='Icons/Buttons/check.png')
         check = tk.Button(self,image=self.check_pick,command=lambda:check_availability())
@@ -830,7 +891,7 @@ class studentUnique(tk.Frame):
             """Function incharge of quitting (back to Main page)"""
             quit_r.config(state='disabled')
             prev_to_id.config(state='disabled')
-            complete.config(state='disabled')
+            self.complete.config(state='disabled')
             popup_window= tk.Tk()
             popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
             popup_window.wm_title("Are you sure?")
@@ -838,14 +899,14 @@ class studentUnique(tk.Frame):
             def quit():
                 quit_r.config(state='normal')
                 prev_to_id.config(state='normal')
-                complete.config(state='normal')
+                self.complete.config(state='normal')
                 controller.show_frame(Main_menu)
                 popup_window.destroy()
             
             def close_popup():
                 quit_r.config(state='normal')
                 prev_to_id.config(state='normal')
-                complete.config(state='normal')
+                self.complete.config(state='normal')
                 popup_window.destroy()
 
             
@@ -870,6 +931,8 @@ class NotificationPage(tk.Frame):
         self.bg = tk.PhotoImage(file='Icons/Backgrounds/notification.png')
         main_window = tk.Label(self,image=self.bg)
         main_window.grid(pady=0,padx=0)
+
+        
 
 
 
