@@ -19,9 +19,9 @@ def get_registered_student(student_id):
     surname = details_list[3]
     
     address = details_list[4] + "\n" + \
-              "               " + \
+              "                           " + \
               details_list[5] + "\n" +\
-              "               "+ \
+              "                           "+ \
               details_list[6]
 
     postcode = details_list[7]
@@ -56,31 +56,34 @@ def get_registered_student(student_id):
     course_hours = course_list[4]
 
     #Genereate message for notification
-    message = " "*32 + "CONGRATULATIONS  " + name.upper()+"\n"+" "*18+\
+    message1 = " "*32 + "CONGRATULATIONS  " + name.upper()+"\n"+" "*10+\
               "you have successfully registered at coventry college" +"\n"+\
-              "-"*90+"\n"+"#"*90+"\n"+"-"*90+"\n"+" "*26+"-:YOUR PERSONAL DETAILS BELOW:- " +"\n" +"\n"+ \
-              "Name:          " + title + " " + name + " " + surname + "\n"*2+\
-              "Date of Birth: " + DoB + "\n" *2+\
-              "Address:       " + address + "\n" +\
-              "Postcode:      " + postcode + "\n"*2 +\
-              "Contact No:    " + number + "\n" +\
-              "Contact Email: " + email + "\n" +"-"*90+"\n"+"#"*90+"\n"+"-"*90+"\n" * 5 + \
-              " "*32 + "IMPORTANT INFORMATION  "+"\n" +" "*5+\
-              "please write down your College username, Student ID Number and college email "+"\n"+"-"*90+"\n"+"#"*90+"\n"+"-"*90+\
+              "-"*90+"\n"+"#"*50+" ||"+"\n"+"-"*90+"\n"+" "*26+"-:YOUR PERSONAL DETAILS BELOW:- " +"\n" +"\n"+ \
+              "Name:               " + title + " " + name + " " + surname + "\n"*2+\
+              "Date of Birth:   " + DoB + "\n" *2+\
+              "Address:          " + address + "\n" +\
+              "Postcode:        " + postcode + "\n"*2 +\
+              "Contact No:     " + number + "\n" +\
+              "Email:               " + email + "\n" *2+"-"*90+"\n"+"#"*50+" ||"+"\n"+"-"*90+"\n" * 5
+    
+    message2 = " "*48 + "IMPORTANT INFORMATION  "+"\n" +" "*13+\
+              "Please write down your Username, Student ID and Student Email "+"\n"+"-"*110+"\n"+"#"*62+" ||"+"\n"+"-"*110+\
               "\n"+" "*26+"-:YOUR STUDENT DETAILS BELOW:- " +"\n" +"\n"+ \
-              "YOUR STUDENT ID:---------->>>   " + student_id +"\n" +\
-              "YOUR STUDENT USERNAME:---->>>   " + student_username + "\n" + \
-              "YOUR STUDENT EMAIL:------->>>   " + student_college_email+ "\n" +"-"*90+"\n"+"#"*90+"\n"+"-"*90+"\n"+\
+              "YOUR STUDENT ID:---------------->>> " + student_id +"\n" +\
+              "YOUR STUDENT USERNAME:--->>> " + student_username + "\n" + \
+              "YOUR STUDENT EMAIL:---------->>> " + student_college_email+ "\n" +"-"*110+"\n"+"#"*62+" ||"+"\n"+"-"*110+\
               " "*26+"-:YOUR COURSE DETAILS BELOW:- " +"\n" +"\n"+ \
-              "COURSE:------------------->>>   " + course_name + "\n" +\
-              "COURSE TYPE:-------------->>>   " + course_type + "\n" +\
-              "COURSE DURATION:---------->>>   " + course_duration + "\n" +\
-              "COURSE HOURSE PER WEEK:--->>>   " + course_hours + "\n" + "-"*90+"\n"+"#"*90+"\n"+"-"*90
+              "COURSE:-------------------------------->>> " + course_name + "\n" +\
+              "COURSE TYPE:------------------------>>> " + course_type + "\n" +\
+              "COURSE DURATION:---------------->>> " + course_duration + "\n" +\
+              "COURSE HOURSE PER WEEK:--->>> " + course_hours + "\n" + "-"*110+"\n"+"#"*62+" ||"+"\n"+"-"*110
               
               
         
     with open("notification_message.txt", "w") as text_file:
-        text_file.write(message)        
+        text_file.write(message1)
 
+    with open("notification_message2.txt", "w") as text_file:
+        text_file.write(message2) 
 
 

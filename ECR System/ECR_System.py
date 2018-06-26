@@ -781,7 +781,7 @@ class studentUnique(tk.Frame):
 
 #creates next to confirmation Notification and previous buttons for course selection page
         self.finish = tk.PhotoImage(file='Icons/Buttons/complete.png')
-        self.complete = tk.Button(self,image=self.finish,command=lambda:complete_details())
+        self.complete = tk.Button(self,image=self.finish,command=lambda: controller.show_frame(NotificationPage)) #complete_details()
         self.complete.place(x=1050, y=220)
 
         self.prev = tk.PhotoImage(file='Icons/Buttons/previous.png')
@@ -864,7 +864,7 @@ class studentUnique(tk.Frame):
                 controller.show_frame(NotificationPage)
                 popup_window.destroy()
                 
-
+            
             complete_B = ttk.Button(popup_window, text="Complete", command = lambda:complete_f())
             complete_B.place(x=350,y=185)
 
@@ -965,12 +965,26 @@ class NotificationPage(tk.Frame):
         self.bg = tk.PhotoImage(file='Icons/Backgrounds/notification.png')
         main_window = tk.Label(self,image=self.bg)
         main_window.grid(pady=0,padx=0)
-        
+
+
+        def Notification_message():
+            
+            Message1 = Text(self, width=54, height= 22,font=("Helvetica", 9, "bold"))
+            Message1.place(x=240,y=108)
+            with open("notification_message.txt", 'r') as f:
+                Message1.insert(INSERT, f.read())
+                Message1.config(state="disabled")
+
+
+            Message2 = Text(self, wrap=WORD, width=65, height= 22,font=("Helvetica", 9, "bold"))
+            Message2.place(x=680,y=108)
+            with open("notification_message2.txt", 'r') as f:
+                Message2.insert(INSERT, f.read())
+            self.after(1000, Notification_message)
+        Notification_message()
         
 
 
-
-        
 app = ECR()
 app.mainloop()
         
