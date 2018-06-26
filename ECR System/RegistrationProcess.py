@@ -77,7 +77,7 @@ def update_course_spaces(list):
 
 
     #updating course
-    c.execute('UPDATE Courses SET AvSpc = ?  WHERE Code=?' \ 
+    c.execute('UPDATE Courses SET AvSpc = ?  WHERE Code=?' \
               ,(new_spaces,course))
     conn.commit() 
 
@@ -92,7 +92,10 @@ def register_student():
     student_details = c.execute("SELECT studentId ,title,DoB, name,surname, address1,address2,county,postcode,phoneNo,\
                            email,courseId,CollUsername,CollPassword FROM temporary WHERE temp1=?", ("TempHere",)).fetchall() # get the students details from temporary table (unregistered)
     new_student = student_details[0]
-
+    
+    student_id = new_student[0]#student id required for notification process
+    
+    
     update_course_spaces(new_student) # reduce the course spaces by 1 (for registering student)
     set_registered(new_student) # write to registered table (student ID and Course code)
     set_college_details(new_student) # write to students college details table (student ID, username, password)
