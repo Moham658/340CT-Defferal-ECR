@@ -867,7 +867,7 @@ class studentUnique(tk.Frame):
             popup_window= tk.Tk()
             popup_window.attributes('-alpha', 0.96)#opacity to all pop-ups for professional look
             popup_window.wm_title("Are you sure?")
-            imageLabel = tk.Label(popup_window, text="You have chosen to the username"+ "\n"*2 +\
+            imageLabel = tk.Label(popup_window, text="You have chosen the username"+ "\n"*2 +\
                                   uName.get()+ "\n"*2 +\
                                   "Once you complete, You cannot change any details unless you speak to a member of staff at reception"+\
                                   "\n"+"Are you sure you want to continue?")

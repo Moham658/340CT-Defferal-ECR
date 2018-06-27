@@ -5,6 +5,7 @@ def set_student_details(list):
     """This function stores the students details (title, name, address, contact and personal email) in the college database"""
 
     #extracting required student details values from list given from register_student function (unregistered student from temporary table)
+    studentId = list[0]
     title = list[1]
     DoB = list[2]
     name = list[3]
