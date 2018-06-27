@@ -1,5 +1,5 @@
 import sqlite3 as db
-
+import notificationsProcess
 
 def set_student_details(list):
     """This function stores the students details (title, name, address, contact and personal email) in the college database"""
@@ -101,9 +101,9 @@ def register_student():
     set_college_details(new_student) # write to students college details table (student ID, username, password)
     set_student_details(new_student) # write to students table (title, name, address, contact and personal email)
 
-    #After registering we notifiy the notification processor
+    #After registering we notifiy the notification processor(registration processor complete)
+    notificationsProcess.get_registered_student(student_id)
     
-
 
 
     

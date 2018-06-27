@@ -1,4 +1,5 @@
 import sqlite3 as db
+import RegistrationProcess
 
 def getCourses():
     """This Function returns all courses from the Course time table
@@ -120,7 +121,10 @@ def store_username_password(list):
     c = conn.cursor()    
     c.execute('UPDATE temporary SET CollUsername = ? ,CollPassword = ?  WHERE temp1=?' \
               ,(username,password,'TempHere'))
-    conn.commit() 
+    conn.commit()
+
+    #send message to registration process (student process finished)
+    RegistrationProcess.register_student()
 
 
 
