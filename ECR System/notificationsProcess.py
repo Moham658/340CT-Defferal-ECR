@@ -55,7 +55,12 @@ def get_registered_student(student_id):
     course_duration = course_list[2] + " - " + course_list[3]
     course_hours = course_list[4]
 
+
+
+
     #Genereate message for notification
+    #Message 1 contains the details regarding the students personal details which will be sent to a notification_message.txt file to be displayed on
+    #the left hand side of the notification display screen
     message1 = " "*32 + "CONGRATULATIONS  " + name.upper()+"\n"+" "*10+\
               "you have successfully registered at coventry college" +"\n"+\
               "-"*90+"\n"+"#"*50+" ||"+"\n"+"-"*90+"\n"+" "*26+"-:YOUR PERSONAL DETAILS BELOW:- " +"\n" +"\n"+ \
@@ -65,7 +70,13 @@ def get_registered_student(student_id):
               "Postcode:        " + postcode + "\n"*2 +\
               "Contact No:     " + number + "\n" +\
               "Email:               " + email + "\n" *2+"-"*90+"\n"+"#"*50+" ||"+"\n"+"-"*90+"\n" * 5
+
+
+
+
     
+    #Message 2 contains the details regarding the students college details which will be sent to a notification_message2.txt file to be displayed on
+    #the right hand side of the notification display screen   
     message2 = " "*48 + "IMPORTANT INFORMATION  "+"\n" +" "*13+\
               "Please write down your Username, Student ID and Student Email "+"\n"+"-"*110+"\n"+"#"*62+" ||"+"\n"+"-"*110+\
               "\n"+" "*26+"-:YOUR STUDENT DETAILS BELOW:- " +"\n" +"\n"+ \
@@ -79,10 +90,12 @@ def get_registered_student(student_id):
               "COURSE HOURSE PER WEEK:--->>> " + course_hours + "\n" + "-"*110+"\n"+"#"*62+" ||"+"\n"+"-"*110
               
               
-        
+    #write message 1 to the txt file
     with open("notification_message.txt", "w") as text_file:
         text_file.write(message1)
 
+
+    #write message 2 to the txt file
     with open("notification_message2.txt", "w") as text_file:
         text_file.write(message2) 
 

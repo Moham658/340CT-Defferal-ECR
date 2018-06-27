@@ -18,7 +18,7 @@ def checkExists(list):
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()
     
-    check_exists = c.execute("SELECT title,name,surname,id  FROM Students WHERE DoB=? AND name=? AND surname=?", (list[1],list[2],list[3])).fetchall() # checks if session is free
+    check_exists = c.execute("SELECT title,name,surname,id  FROM Students WHERE DoB=? AND name=? AND surname=?", (list[1],list[2],list[3])).fetchall() 
     return bool(check_exists) #if student exists it returns true 
 
 
@@ -27,9 +27,9 @@ def getRegStudId(list):
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()
     
-    getStudDet = c.execute("SELECT title,name,surname,id  FROM Students WHERE DoB=? AND name=? AND surname=?", (list[1],list[2],list[3])).fetchall() # checks if session is free
+    getStudDet = c.execute("SELECT title,name,surname,id  FROM Students WHERE DoB=? AND name=? AND surname=?", (list[1],list[2],list[3])).fetchall()
     details = getStudDet[0]
-    return (details[3])
+    return (details[3])#return student ID
 
 
 
@@ -38,25 +38,30 @@ def getRegCourseId(student_id):
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()
     
-    courseId = c.execute("SELECT courseId FROM registered WHERE studentId=?", (student_id,)).fetchall() # checks if session is free
+    courseId = c.execute("SELECT courseId FROM registered WHERE studentId=?", (student_id,)).fetchall() 
     details = courseId[0]
-    return (details[0])
+    return (details[0])#returns students course ID
 
 
 
 
 def getCourseDetails(courseCode):
+    
     """This function gets the registered students course details for pop-up message"""
+    
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()
     
-    courseDetails = c.execute("SELECT Course,Code,Type,Start, End  FROM Courses WHERE Code=?", (courseCode,)).fetchall() # checks if session is free
+    courseDetails = c.execute("SELECT Course,Code,Type,Start, End  FROM Courses WHERE Code=?", (courseCode,)).fetchall()
     details = courseDetails[0]
-    return (details)
+    
+    return (details) #returns course Details
 
 
 def TempStudDet(list):
-    """This function stores the students details in a temporary table until full registration is complete"""
+    
+    """This function stores the students details in a temporary table until full registration is complete
+        the students details is sent from the inputs of the GUI"""
 
     studentId = incrementStudId()
     title = list[0]
@@ -74,7 +79,8 @@ def TempStudDet(list):
     c = conn.cursor()    
     c.execute('UPDATE temporary SET studentId = ? ,title = ? ,name =? ,surname =?, address1 =?, address2=?,county=?, postcode = ?, phoneNo = ?, email = ?, DoB = ? WHERE temp1=?' \
               ,(studentId,title, name,surname,address1,address2,county,postcode,phoneNo,email,DoB,'TempHere'))
-    conn.commit() 
+    conn.commit() #storing information
+
 
 def TempStudCourse(course):
     """This function stores the student's selected course in a temporary table until full registration is complete"""
@@ -86,15 +92,18 @@ def TempStudCourse(course):
 
     
 def incrementStudId():
+    
     """This function gets the last registered students id and increments it for the next registering student"""
+    
     conn = db.connect('ECRS_db.db')
     c = conn.cursor()
     
-    getlastStudent = c.execute("SELECT id FROM Students").fetchall() # checks if session is free
+    getlastStudent = c.execute("SELECT id FROM Students").fetchall() 
     lastStudent = getlastStudent[-1]
     newStudentId = int(lastStudent[0])+1
     
     return (newStudentId)
+
 
 def CheckUsername(username):
     """This function checks if the username is free/available for use"""
